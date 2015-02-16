@@ -19,6 +19,11 @@ var userSchema = new mongoose.Schema({
     //required: true,
     trim: false
   },
+  phone: {
+    type: String,
+    required: false,
+    trim: true
+  }
   created_at: {
     type: Date
   },
