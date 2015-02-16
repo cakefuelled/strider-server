@@ -1,5 +1,5 @@
 var mongoose = require("mongoose"),
-  Update = require("update.js");
+  Update = require("./update.js");
 
 
 // Define the MongoDB Schema
