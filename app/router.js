@@ -15,14 +15,12 @@ module.exports = function(Strider) {
   });
 
   // Test route (accessed at GET http://localhost:8080/)
-  Strider.router.get('/', function(req, res) {
+  Strider.app.get('/', function(req, res) {
     res.send({
       message: 'Strider API',
       version: Strider.version
     });
   });
-
-
 
   // Error handlers
   Strider.app.use(function(req, res, next) {

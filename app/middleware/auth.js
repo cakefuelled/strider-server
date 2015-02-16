@@ -1,13 +1,12 @@
 /**
- * Korqie API
+ * Strider API
  * Authentication manager
  */
 
 var openPaths = [{
-    path: '/users',
-    method: 'post'
-  }],
-  response = require('./response.js');
+  path: '/users',
+  method: 'post'
+}];
 
 module.exports = {
   /**
