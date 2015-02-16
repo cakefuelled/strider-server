@@ -3,7 +3,7 @@
  */
 var winston = require('winston'),
   fs = require('fs'),
-  logDir = __dirname + '/../../log';
+  logDir = __dirname + '/../../logs';
 
 if (!fs.existsSync(logDir)) {
   // Create the directory if it does not exist

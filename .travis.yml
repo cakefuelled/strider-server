@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '0.10'
+before_script:
+- sleep 15
+- npm start &
+- sleep 1
+services:
+- mongodb
+env:
+  matrix:
+  - MONGO=mongodb://127.0.0.1:27017/strider
