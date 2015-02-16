@@ -1,22 +1,21 @@
-var mongoose = require("mongoose")
+var mongoose = require("mongoose"),
+  Update = require("./update.js");
 
 // Define the MongoDB Schema
 var locationSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true
-  },
-  address: {
-    type: String,
-    required: true,
     trim: true,
     unique: true
   },
+  address: {
+    type: String,
+    required: true
+  },
   postcode: {
     type: String,
-    //required: true,
-    trim: false
+    required: true
   },
   contact: {
     type: String,
@@ -28,24 +27,13 @@ var locationSchema = new mongoose.Schema({
     required: true,
     trim: true
   }
-  created_at: {
-    type: Date
-  },
-  updated_at: {
-    type: Date
-  }
+  updates: [Update.schema]
 
 });
 
-// Automatically fill in created_at and updated_at fields
-locationSchema.pre('save', function(next) {
-  now = new Date();
-  this.updated_at = now;
-  if (!this.created_at) {
-    this.created_at = now;
-  }
-  next();
-});
+// Automatically log updates
+locationSchema.pre('save', require('./utils/audit-logger.js'));
+
 locationSchema.statics.findByPostcode = function(postcode, cb) {
 
   // 'this' will refer to the Location model, but could be a promise
