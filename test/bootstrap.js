@@ -3,8 +3,7 @@
  * Add shared variables here so that all tests can be updated it at the same time
  */
 
-var dotenv = require('dotenv'),
-  should = require('should');
+var dotenv = require('dotenv');
 
 // Load environment variables from the .env file
 dotenv.load();

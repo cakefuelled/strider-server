@@ -36,7 +36,9 @@ describe('API server', function() {
 
           var pjson = require('../package.json');
 
-          if (res.body.version !== pjson.version) return done(err)
+          if (res.body.version !== pjson.version) {
+            return done(err)
+          }
           done()
         })
     });

@@ -1,5 +1,4 @@
-var passport = require('passport'),
-  log = require('./lib/log.js');
+var log = require('./lib/log.js');
 
 /**
  * Strider API - Router
