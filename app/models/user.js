@@ -23,25 +23,19 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: false,
     trim: true
-  }
-  created_at: {
-    type: Date
   },
-  updated_at: {
-    type: Date
-  }
+  type: {
+    type: String,
+    required: false,
+    trim: true
+  },
+  updates: [Update.schema]
 
 });
 
 // Automatically fill in created_at and updated_at fields
-userSchema.pre('save', function(next) {
-  now = new Date();
-  this.updated_at = now;
-  if (!this.created_at) {
-    this.created_at = now;
-  }
-  next();
-});
+userSchema.pre('save', require('./utils/audit-logger.js'));
+
 userSchema.statics.findByEmail = function(email, cb) {
   // good idea to check if the given email is a string
 
