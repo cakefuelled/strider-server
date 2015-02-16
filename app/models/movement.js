@@ -1,4 +1,5 @@
-var mongoose = require("mongoose");
+var mongoose = require("mongoose"),
+  Update = require("update.js");
 
 // Define the MongoDB Schema
 var movementSchema = new mongoose.Schema({

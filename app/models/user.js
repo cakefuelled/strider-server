@@ -1,5 +1,6 @@
 var mongoose = require("mongoose"),
-  crypto = require('../crypto/crypter.js');
+  crypto = require('../crypto/crypter.js'),
+  Update = require("update.js");
 
 // Define the MongoDB Schema
 var userSchema = new mongoose.Schema({
