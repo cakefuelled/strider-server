@@ -11,53 +11,57 @@ var should = require('should'),
  */
 
 before(function(done) {
-  mongoose.connect(process.env.MONGO, function(err) {
-    if (err) {
-      return done(err);
-    }
-    done();
-  });
-});
-
-before(function(done) {
   bootstrap.clearDB(done);
 });
 
 describe('Items Endpoint', function() {
 
   var item = {
-    type: "Monitor",
-    alternate-id: "12410058018208",
-    alternate-id-type: "Barcode"
-  }      
-
-  var itemId = 0;
+    type: 'Monitor',
+    id_alt: [{
+      id: '124199850918',
+      id_type: 'Barcode'
+    }]
+  };      
 
   it('should save an item', function(done) {
 
-    //TODO: Add an expect for item Id
     request(bootstrap.api)
       .post('/items/')
       .send(item)
       .expect(201)
-      .expect(item, done);
-
-    //TODO: Push ItemId into item
+      .end(function(err, res) {
+        res.body.id.should.equal('AIMAR-1');
+        done();
+      });
   });
+
+  //Item Ids should be generic so that the id doesn't tie the thing to the object (so no Monitors being Mice etc.)
+  //Can anyone hear me? Pull request reviewer! You are my only hope! Oh no! They're comi-...
+  item.id = 'AIMAR-1';
 
   it('should list an item', function(done) {
     request(bootstrap.api)
       .get('/items/')
       .expect(200)
-      .expect([item], done);
+      .expect([item], done());
   });
 
   it('should retrieve an item', function(done) {
     request(bootstrap.api)
       .get('/items/'+itemId)
       .expect(200)
-      .expect(item, done);
+      .expect(item, done());
   });
+
+  item = {
+    id: 'AIMAR-1',
+    type: 'Mouse',
+    id_alt: [{
+      id: '124199850918',
+      id_type: 'Barcode'
+    }]
+  };
 
   it('should update an item', function(done) {
     request(bootstrap.api)
@@ -69,23 +73,28 @@ describe('Items Endpoint', function() {
     request(bootstrap.api)
       .get('/items/'+itemId)
       .expect(200)
-      .expect(item, done);
+      .expect(item, done());
   });
 
   it('should delete an item', function(done) {
     request(bootstrap.api)
       .delete('/items/'+itemId)
-      .expect(202, done);
+      .expect(202);
 
     request(bootstrap.api)
       .get('/items/')
       .expect(200)
-      .expect([], done);
+      .expect([]);
 
-    //TODO: Check error message
     request(bootstrap.api)
       .get('/items/'+itemId)
-      .expect(404, done);
+      .expect(404)
+      .end(function(err, res) {
+        res.body.errors.code.should.equal(404);
+        res.body.errors.message.should.equal('An item with that id was not found');
+
+        done();
+      });
   })
 
 
