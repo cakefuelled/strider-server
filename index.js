@@ -5,7 +5,7 @@
  */
 
 // Module loading
-var express = require('express'),
+var restify = require('restify'),
   bodyParser = require('body-parser'),
   events = require('events'),
   dotenv = require('dotenv'),
@@ -30,11 +30,10 @@ dotenv.load();
  * @type {Object}
  */
 var Strider = {
-  app: express(),
+  app: restify.createServer({name: 'Strider-API'}),
   ipaddress: process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "127.0.0.1",
   port: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080,
   api_dir: process.env.API_DIR || '/',
-  router: express.Router(),
   version: require('./package.json').version,
   events: new events.EventEmitter(),
   mongo: mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO),
@@ -86,7 +85,8 @@ passport.deserializeUser(function(id, done) {
 Strider.app.use(bodyParser.urlencoded({
   extended: true
 }));
-Strider.app.use(bodyParser.json());
+Strider.app.use(restify.fullResponse());
+Strider.app.use(restify.bodyParser());
 Strider.app.use(cookieParser());
 Strider.app.use(session({
   secret: process.env.SESSION_SECRET || 'Strider',
@@ -98,7 +98,7 @@ Strider.app.use(passport.session());
 
 
 // Set up API routes
-require('./app/router.js')(Strider);
+require('./app/routes/main.js')(Strider);
 
 // Start the server
 Strider.app.listen(Strider.port, Strider.ipaddress, function() {
