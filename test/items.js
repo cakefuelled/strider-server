@@ -25,7 +25,19 @@ describe('Items Endpoint', function() {
       id: '124199850918',
       type: 'Barcode'
     }]
-  };      
+  };   
+
+  it('should not save an item without a CSRF token', function(done) {
+
+    request(bootstrap.api)
+      .post('/items')
+      .send(item)
+      .expect(403)
+      .end(function(err, res) {
+        //pending
+        done();
+      });
+  });
 
   it('should save an item', function(done) {
 
@@ -42,7 +54,7 @@ describe('Items Endpoint', function() {
       });
   });
 
-  it('should list an item', function(done) {
+  it('should list all items', function(done) {
     request(bootstrap.api)
       .get('/items')
       .expect(200)
@@ -54,17 +66,32 @@ describe('Items Endpoint', function() {
       .get('/items/'+item.id)
       .expect(200)
       .expect(item)
-      .end(function(err, res) {
-          //Update the item for next tests
-          item = {
+  });
+
+  it('should not update an item without a CSRF token', function(done) {
+
+      var item_updated = {
             id: 'AIMAR-1',
             type: 'Mouse',
             altIds: [{
               id: '124199850918',
               type: 'Barcode'
             }]
-          };
-      });
+          };   
+
+    request(bootstrap.api)
+      .put('/items/'+item.id)
+      .send(item_updated)
+      .expect(403);
+
+    request(bootstrap.api)
+      .get('/items/'+item.id)
+      .expect(200)
+      .expect(item, done())
+      .end(function(err, res) {
+        //Now we begin working with the real item          
+        item = item_updated;
+      });;
   });
 
   it('should update an item', function(done) {
@@ -79,6 +106,17 @@ describe('Items Endpoint', function() {
       .expect(200)
       .expect(item, done());
   });
+
+  it('should not delete an item without CSRF token', function(done) {
+    request(bootstrap.api)
+      .delete('/items/'+item.id)
+      .expect(403);
+
+    request(bootstrap.api)
+      .get('/items/')
+      .expect(200)
+      .expect([item]);
+  })
 
   it('should delete an item', function(done) {
     request(bootstrap.api)
