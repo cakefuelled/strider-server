@@ -30,7 +30,9 @@ dotenv.load();
  * @type {Object}
  */
 var Strider = {
-  app: restify.createServer({name: 'Strider-API'}),
+  app: restify.createServer({
+    name: 'Strider-API'
+  }),
   ipaddress: process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "127.0.0.1",
   port: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080,
   api_dir: process.env.API_DIR || '/',
@@ -98,7 +100,7 @@ Strider.app.use(passport.session());
 
 
 // Set up API routes
-require('./app/routes/main.js')(Strider);
+require('./app/main.js')(Strider);
 
 // Start the server
 Strider.app.listen(Strider.port, Strider.ipaddress, function() {
@@ -109,8 +111,23 @@ Strider.app.listen(Strider.port, Strider.ipaddress, function() {
     Strider.api_dir);
 });
 
+// Non existing endpoints
+Strider.app.on('NotFound', function(req, res, err, next) {
+  log.debug('Non existing endpoint: %s', req.url);
+  res.send(501, {
+    errors: [501],
+    message: 'Requested endpoint does not exist'
+  });
+});
+
+Strider.app.on('InternalServerError', function(req, res, err, next) {
+  log.error(err);
+  return next();
+});
+
 // Error handling
 process.on('uncaughtException', function(err) {
   // Handle the error safely
   log.error(err);
+  return next();
 });
