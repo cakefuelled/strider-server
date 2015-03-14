@@ -6,7 +6,6 @@ var mongoose = require("mongoose"),
 var itemSchema = new mongoose.Schema({
   id: {
     type: String,
-    required: true,
     trim: true,
     unique: true
   },
@@ -15,9 +14,17 @@ var itemSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  alternate_id: {
-    type: String,
-  },
+  altIds: [{
+    id: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    type: {
+      type: String,
+      required: true
+    }
+  }],
   updates: [Update.schema]
 });
 
