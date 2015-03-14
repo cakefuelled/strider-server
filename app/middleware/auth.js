@@ -29,7 +29,7 @@ module.exports = {
       return;
     }
 
-    if (req.user._id === req.params['id']) {
+    if (req.user._id == req.params['id']) {
       next();
     } else {
       res.status(403).send({
@@ -54,8 +54,7 @@ module.exports = {
     // Check if this path should be available
     for (var i = 0, total = openPaths.length; i < total; i++) {
       if (openPaths[i].path === req.originalUrl && openPaths[i].method.toLowerCase() === req.method.toLowerCase()) {
-        next();
-        return;
+        return next();
       }
     }
 
@@ -66,7 +65,7 @@ module.exports = {
         message: 'You need to login first'
       });
     } else {
-      next();
+      return next();
     }
   }
 };

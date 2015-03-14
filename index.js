@@ -5,7 +5,7 @@
  */
 
 // Module loading
-var restify = require('restify'),
+var express = require('express'),
   bodyParser = require('body-parser'),
   events = require('events'),
   dotenv = require('dotenv'),
@@ -30,9 +30,7 @@ dotenv.load();
  * @type {Object}
  */
 var Strider = {
-  app: restify.createServer({
-    name: 'Strider-API'
-  }),
+  app: express(),
   ipaddress: process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "127.0.0.1",
   port: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080,
   api_dir: process.env.API_DIR || '/',
@@ -87,8 +85,7 @@ passport.deserializeUser(function(id, done) {
 Strider.app.use(bodyParser.urlencoded({
   extended: true
 }));
-Strider.app.use(restify.fullResponse());
-Strider.app.use(restify.bodyParser());
+Strider.app.use(bodyParser.json());
 Strider.app.use(cookieParser());
 Strider.app.use(session({
   secret: process.env.SESSION_SECRET || 'Strider',
@@ -111,23 +108,8 @@ Strider.app.listen(Strider.port, Strider.ipaddress, function() {
     Strider.api_dir);
 });
 
-// Non existing endpoints
-Strider.app.on('NotFound', function(req, res, err, next) {
-  log.debug('Non existing endpoint: %s', req.url);
-  res.send(501, {
-    errors: [501],
-    message: 'Requested endpoint does not exist'
-  });
-});
-
-Strider.app.on('InternalServerError', function(req, res, err, next) {
-  log.error(err);
-  return next();
-});
-
 // Error handling
 process.on('uncaughtException', function(err) {
   // Handle the error safely
   log.error(err);
-  return next();
 });
