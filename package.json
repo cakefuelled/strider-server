@@ -30,6 +30,7 @@
     "events": "^1.0.2",
     "express": "^4.11.2",
     "express-session": "^1.10.2",
+    "express-validator": "^2.8.0",
     "mongoose": "^3.8.23",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",

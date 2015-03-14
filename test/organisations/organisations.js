@@ -4,7 +4,7 @@
 var should = require('should'),
   request = require('supertest'),
   mongoose = require('mongoose'),
-  bootstrap = require('./bootstrap.js')();
+  bootstrap = require('../bootstrap.js')();
 
 /*
  * Global before() operations
@@ -58,7 +58,7 @@ describe('Organisations Endpoint', function() {
 
       var org_updated = {
             name: 'Aimar Foundation',
-            domain: 'aimarfoundation.org'
+            domain: 'aimarfoundation.org',
             path: 'aimarfoundation'
           };   
 
@@ -86,7 +86,7 @@ describe('Organisations Endpoint', function() {
       .put('/organisations/'+organisation.path)
       .send(organisation)
       .expect(200)
-      .expect(organisation;
+      .expect(organisation);
 
     request(bootstrap.api)
       .get('/organisations/'+organisation.path)
