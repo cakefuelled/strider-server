@@ -26,7 +26,7 @@ describe('Organisations Endpoint', function() {
 
     request(bootstrap.api)
       .post('/organisations')
-      .send(item)
+      .send(organisation)
       .expect(403);
   });
 
@@ -81,7 +81,7 @@ describe('Organisations Endpoint', function() {
       });;
   });
 
-  it('should update an item', function(done) {
+  it('should update an organisation', function(done) {
     request(bootstrap.api)
       .put('/organisations/'+organisation.path)
       .send(organisation)

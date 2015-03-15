@@ -14,10 +14,13 @@ var restify = require('restify'),
   LocalStrategy = require('passport-local').Strategy,
   cookieParser = require('cookie-parser'),
   session = require('express-session'),
+  expressValidator = require('express-validator'),
   // Models
   User = require('./app/models/user.js'),
   // Libs
   log = require('./app/lib/log.js');
+  //Validators
+  validators = require('./app/validators.js')
 
 // Load environment variables from the .env file
 dotenv.load();
@@ -89,6 +92,7 @@ Strider.app.use(bodyParser.urlencoded({
 }));
 Strider.app.use(restify.fullResponse());
 Strider.app.use(restify.bodyParser());
+Strider.app.use(expressValidator({customValidators: validators}));  //Has to be after bodyParser
 Strider.app.use(cookieParser());
 Strider.app.use(session({
   secret: process.env.SESSION_SECRET || 'Strider',
@@ -100,7 +104,7 @@ Strider.app.use(passport.session());
 
 
 // Set up API routes
-require('./app/main.js')(Strider);
+require('./app/routes.js')(Strider);
 
 // Start the server
 Strider.app.listen(Strider.port, Strider.ipaddress, function() {

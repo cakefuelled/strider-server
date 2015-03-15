@@ -24,6 +24,7 @@ module.exports = function(Strider) {
 
   // Object routes
   require('./routes/items.js')(Strider);
+  require('./routes/organisations.js')(Strider);
 
   // Error handlers
   // Strider.app.use(function(req, res, next) {
