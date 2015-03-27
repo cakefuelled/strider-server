@@ -7,6 +7,7 @@ var express = require('express'),
   // Middleware
   log = require('../lib/log.js'),
   auth = require('../middleware/auth.js'),
+  restful = require('../middleware/restful.js'),
   // Models
   Item = require('../models/item');
 
