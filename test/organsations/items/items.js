@@ -34,7 +34,8 @@ describe('Items Endpoint', function() {
       .send(item)
       .expect(403)
       .end(function(err, res) {
-        //pending
+        //TODO we should probably make the csrf test
+        // a generic one, probably in bootstrap.js
         done();
       });
   });
