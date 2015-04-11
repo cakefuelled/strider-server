@@ -6,21 +6,19 @@
 
 // Module loading
 var express = require('express'),
-  bodyParser = require('body-parser'),
-  events = require('events'),
-  dotenv = require('dotenv'),
-  mongoose = require('mongoose'),
-  passport = require('passport'),
-  LocalStrategy = require('passport-local').Strategy,
-  cookieParser = require('cookie-parser'),
-  session = require('express-session'),
-  expressValidator = require('express-validator'),
-  // Models
-  User = require('./app/models/user.js'),
-  // Libs
-  log = require('./app/lib/log.js');
-  //Validators
-  validators = require('./app/validators.js')
+    bodyParser = require('body-parser'),
+    events = require('events'),
+    dotenv = require('dotenv'),
+    mongoose = require('mongoose'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    cookieParser = require('cookie-parser'),
+    session = require('express-session'),
+    validate = require('express-validation'),
+    // Models
+    User = require('./app/models/user.js'),
+    // Libs
+    log = require('./app/lib/log.js');
 
 // Load environment variables from the .env file
 dotenv.load();
@@ -33,68 +31,67 @@ dotenv.load();
  * @type {Object}
  */
 var Strider = {
-  app: express(),
-  ipaddress: process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "127.0.0.1",
-  port: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080,
-  api_dir: process.env.API_DIR || '/',
-  version: require('./package.json').version,
-  events: new events.EventEmitter(),
-  mongo: mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO),
-  analytics: require('./app/middleware/analytics.js')
+    app: express(),
+    ipaddress: process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "127.0.0.1",
+    port: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080,
+    api_dir: process.env.API_DIR || '/',
+    version: require('./package.json').version,
+    events: new events.EventEmitter(),
+    mongo: mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO),
+    analytics: require('./app/middleware/analytics.js')
 };
 
 // Log Mongo errors
 var db = mongoose.connection;
 db.on('error', function(err) {
-  log.error('MongoDB connection error:', err.message);
+    log.error('MongoDB connection error:', err.message);
 });
 db.once('open', function callback() {
-  log.info("Connected to MongoDB");
+    log.info("Connected to MongoDB");
 });
 
 // Set up passport
 passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'pwd'
-  },
-  function(email, password, done) {
-    User.findOne({
-      email: email
-    }, function(err, user) {
-      if (err) {
-        return done(err);
-      }
-      if (!user || !user.validPassword(password)) {
-        return done(null, false, {
-          message: 'Incorrect email/password.'
+        usernameField: 'email',
+        passwordField: 'pwd'
+    },
+    function(email, password, done) {
+        User.findOne({
+            email: email
+        }, function(err, user) {
+            if (err) {
+                return done(err);
+            }
+            if (!user || !user.validPassword(password)) {
+                return done(null, false, {
+                    message: 'Incorrect email/password.'
+                });
+            }
+            return done(null, user);
         });
-      }
-      return done(null, user);
-    });
-  }
+    }
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user._id);
+    done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+    User.findById(id, function(err, user) {
+        done(err, user);
+    });
 });
 
 // Set up express middleware
 Strider.app.use(bodyParser.urlencoded({
-  extended: true
+    extended: true
 }));
 Strider.app.use(bodyParser.json());
-Strider.app.use(expressValidator({customValidators: validators}));  //Has to be after bodyParser
 Strider.app.use(cookieParser());
 Strider.app.use(session({
-  secret: process.env.SESSION_SECRET || 'Strider',
-  resave: true,
-  saveUninitialized: true
+    secret: process.env.SESSION_SECRET || 'Strider',
+    resave: true,
+    saveUninitialized: true
 }))
 Strider.app.use(passport.initialize());
 Strider.app.use(passport.session());
@@ -105,15 +102,15 @@ require('./app/routes.js')(Strider);
 
 // Start the server
 Strider.app.listen(Strider.port, Strider.ipaddress, function() {
-  log.info('Strider API v%s started on %s:%s%s',
-    Strider.version,
-    Strider.ipaddress,
-    Strider.port,
-    Strider.api_dir);
+    log.info('Strider API v%s started on %s:%s%s',
+        Strider.version,
+        Strider.ipaddress,
+        Strider.port,
+        Strider.api_dir);
 });
 
 // Error handling
 process.on('uncaughtException', function(err) {
-  // Handle the error safely
-  log.error(err);
+    // Handle the error safely
+    log.error(err);
 });

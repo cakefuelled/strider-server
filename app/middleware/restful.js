@@ -17,14 +17,14 @@
  * Source: http://stackoverflow.com/a/15754373/1262824
  */
 
-module.exports = function(req, res, handlers) {
-  var method = req.method;
-  if (!(method in handlers)) {
-    res.set('Allow', Object.keys(handlers).join(', ').toUpperCase());
-    res.status(405).send({
-      errors: [405]
-    });
-  } else {
-    handlers[method](req, res);
-  }
+module.exports = function(req, res, next, handlers) {
+    var method = req.method;
+    if (!(method in handlers)) {
+        res.set('Allow', Object.keys(handlers).join(', ').toUpperCase());
+        res.status(405).send({
+            errors: [405]
+        });
+    } else {
+        handlers[method](req, res, next);
+    }
 }
