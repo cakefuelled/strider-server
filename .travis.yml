@@ -5,8 +5,14 @@ before_script:
 - sleep 15
 - npm start &
 - sleep 1
+after_script:
+- istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat
+  ./coverage/lcov.info | ./node_modules/codacy-coverage/bin/codacy-coverage.js &&
+  rm -rf ./coverage
 services:
 - mongodb
 env:
   matrix:
   - MONGO=mongodb://127.0.0.1:27017/strider
+  global:
+    secure: bjWHNP+zF1Wx4sXTy089EsVdoHUpmtYR7vySO8PSf+LTLzS/2d3OU83yN9BxwoGTL0yxaXU4bNxtShwCFE3c66oxHmfHaPe3p4D7LdEmSeewTYtWTgOEi9OiuEgpWBva8twxHC5FFkAEQQ9sAzwyBVe3JIWbRqwABLuDPWa/M0o=

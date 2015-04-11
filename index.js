@@ -34,7 +34,6 @@ var Strider = {
   ipaddress: process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "127.0.0.1",
   port: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080,
   api_dir: process.env.API_DIR || '/',
-  router: express.Router(),
   version: require('./package.json').version,
   events: new events.EventEmitter(),
   mongo: mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO),
@@ -98,7 +97,7 @@ Strider.app.use(passport.session());
 
 
 // Set up API routes
-require('./app/router.js')(Strider);
+require('./app/main.js')(Strider);
 
 // Start the server
 Strider.app.listen(Strider.port, Strider.ipaddress, function() {

@@ -1,5 +1,8 @@
+// Dependencies
 var mongoose = require("mongoose"),
+  // Middleware
   crypto = require('../crypto/crypter.js'),
+  // Models/Schemas
   Update = require("./update.js");
 
 // Define the MongoDB Schema
