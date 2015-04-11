@@ -13,6 +13,7 @@ module.exports = function(Strider) {
 
   var auth = express.Router();
 
+  // Return 405 on all methods of /auth
   auth.all('/', function(req, res) {
     restful(req, res, {});
   });
@@ -20,6 +21,7 @@ module.exports = function(Strider) {
   auth.all('/login', function(req, res, next) {
     restful(req, res, {
       POST: function(req, res) {
+        // Only local authentication supported atm
         passport.authenticate('local', function(err, user, info) {
           if (err) {
             return next(err);
@@ -41,6 +43,7 @@ module.exports = function(Strider) {
           });
         })(req, res, next);
       },
+      // To make browser debugging easier, GET login is allowed for now
       GET: function(req, res, next) {
         passport.authenticate('local', function(err, user, info) {
           if (err) {
@@ -64,7 +67,7 @@ module.exports = function(Strider) {
       }
     });
   });
-
+  // Similar to GET login, logout is GET for now to make it easier
   auth.all('/logout', function(req, res) {
     restful(req, res, {
       GET: function(req, res) {
