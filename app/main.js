@@ -1,4 +1,5 @@
-var log = require('./lib/log.js');
+var log = require('./lib/log.js'),
+    cors = require('./middleware/cors.js');
 
 /**
  * Strider API - Main Router
@@ -12,6 +13,8 @@ module.exports = function(Strider) {
       Strider.analytics.pageview(req);
       next();
     });*/
+
+  Strider.app.use(cors)
 
   // Test route (accessed at GET http://localhost:8080/)
   Strider.app.get('/', function(req, res, next) {
