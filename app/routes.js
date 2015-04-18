@@ -31,6 +31,7 @@ module.exports = function(Strider) {
   Strider.app.use(function(err, req, res, next) {
     console.log("!!!!!!!!!!!!!!!!!!!!!Going again");
     console.log(req.headers);
+    console.log(err);
     if (err.code !== 'EBADCSRFTOKEN') next(err);
 
     //Handle CSRF Token errors 

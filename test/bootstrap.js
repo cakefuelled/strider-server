@@ -15,22 +15,27 @@ module.exports = function() {
     noClear: true
   });
 
-  tests.initCsrf = function(request, done) {
-    request(tests.api)
-      .get('/')
-      .expect(200)
-      .end(function(err, res) {
-        tests.cookie = res.headers['set-cookie'];
-        //Works for now but will probably break
-        tests.csrfToken = tests.cookie[0].match('xsrf-token=(.+?);')[1];
-        done();
-      });
+  tests.setCSRF = function(token) {
+    console.log("Token set to :" + token);
+    process.env.CSRF = token;
+  };
+
+  tests.getCSRF = function(){
+    return process.env.CSRF || '';
+  };
+
+  tests.setCookies = function(cookies) {
+    console.log("Cookies set to :" + cookies);
+    process.env.Cookies = cookies;
+  };
+
+  tests.getCookies = function(){
+    return process.env.Cookies || '';
   };
 
   tests.port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080;
   tests.url = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
   tests.api = 'http://' + tests.url + ':' + tests.port + '';
-  tests.csrfToken = '';
   tests.cookie = '';
 
   return tests;

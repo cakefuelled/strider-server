@@ -14,10 +14,6 @@ before(function(done) {
   bootstrap.clearDB(done);
 });
 
-before(function(done) {
-  bootstrap.initCsrf(request, done);
-});
-
 describe('Organisations Endpoint', function() {
 
   var organisation = {
@@ -39,11 +35,11 @@ describe('Organisations Endpoint', function() {
 
   it('should create an organisation', function(done) {
 
-    console.log("Cookie is " + bootstrap.csrfToken);
+    console.log("Cookie is " + bootstrap.getCSRF());
     request(bootstrap.api)
       .post('/organisations')
-      .set('X-XSRF-TOKEN', bootstrap.csrfToken)
-      .set('cookie', bootstrap.cookie)
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .send(organisation)
       .expect(201)
       .end(function(err, res) {

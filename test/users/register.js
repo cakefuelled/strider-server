@@ -23,6 +23,8 @@ describe('/users registration', function() {
     // get the login cookie.
     request(bootstrap.api)
       .post('/users')
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .send({
         name: "TestUser Register",
         email: "test-register@gmail.com",
@@ -48,6 +50,8 @@ describe('/users registration', function() {
     // get the login cookie.
     request(bootstrap.api)
       .post('/users')
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .send({
         name: "TestUser Register 2",
         email: "test-register@gmail.com",

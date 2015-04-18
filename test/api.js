@@ -34,6 +34,14 @@ describe('API server', function() {
             return done(err)
           }
 
+          console.log(res.headers);
+
+          bootstrap.cookie = res.headers['set-cookie'];
+          //Works for now but will probably break
+          bootstrap.setCSRF(bootstrap.cookie[1].match('xsrf-token=(.+?);')[1]);
+          bootstrap.setCookies(bootstrap.cookie);
+          console.log("Extracted token " + bootstrap.getCSRF());
+
           var pjson = require('../package.json');
 
           if (res.body.version !== pjson.version) {
