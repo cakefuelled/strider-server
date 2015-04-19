@@ -16,20 +16,18 @@ module.exports = function() {
   });
 
   tests.setCSRF = function(token) {
-    console.log("Token set to :" + token);
     process.env.CSRF = token;
   };
 
-  tests.getCSRF = function(){
+  tests.getCSRF = function() {
     return process.env.CSRF || '';
   };
 
   tests.setCookies = function(cookies) {
-    console.log("Cookies set to :" + cookies);
     process.env.Cookies = cookies;
   };
 
-  tests.getCookies = function(){
+  tests.getCookies = function() {
     return process.env.Cookies || '';
   };
 

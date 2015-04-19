@@ -94,16 +94,14 @@ Strider.app.use(bodyParser.json());
 Strider.app.use(cookieParser('secret'));
 Strider.app.use(session({
   secret: process.env.SESSION_SECRET || 'Strider',
-  // resave: true,
-  // saveUninitialized: true
+  resave: true,
+  saveUninitialized: true
 }));
 Strider.app.use(passport.initialize());
 Strider.app.use(passport.session());
 Strider.app.use(Strider.csrfProtection);
-Strider.app.get('/',function(req, res, next) {
-  var token = req.csrfToken();
-  console.log("Generated token: "+token);
-  res.cookie('xsrf-token', token);
+Strider.app.use(function(req, res, next) {
+  res.cookie('xsrf-token', req.csrfToken());
   return next();
 });
 

@@ -2,7 +2,7 @@
  * Organisations endpoint tests
  */
 var should = require('should'),
-  request = require('supertest'),
+  request = require('supertest-as-promised'),
   mongoose = require('mongoose'),
   bootstrap = require('../bootstrap.js')();
 
@@ -21,50 +21,58 @@ describe('Organisations Endpoint', function() {
     domain: 'aimarfoundation.org',
     path: 'aimar'
   };
-/*it('should not create an organisation without a CSRF token', function(done) {
 
-  request(bootstrap.api)
-    .post('/organisations')
-    .send(organisation)
-    .expect(403)
-    .end(function(err, res) {
-      return done();
-    });
-});
-*/
+  it('should not create an organisation without a CSRF token', function(done) {
+
+    return request(bootstrap.api)
+      .post('/organisations')
+      .send(organisation)
+      .expect(403, done);
+  });
+
 
   it('should create an organisation', function(done) {
 
-    console.log("Cookie is " + bootstrap.getCSRF());
-    request(bootstrap.api)
+    return request(bootstrap.api)
       .post('/organisations')
       .set('X-XSRF-TOKEN', bootstrap.getCSRF())
       .set('cookie', bootstrap.getCookies())
       .send(organisation)
       .expect(201)
-      .end(function(err, res) {
+      .then(function(res) {
         res.body.should.containEql(organisation);
-        return done();
+        done();
+      })
+      .catch(function(err) {
+        done(err);
       });
 
   });
-  /*it('should list all organisations', function(done) {
-    request(bootstrap.api)
+
+  it('should list all organisations', function(done) {
+
+    return request(bootstrap.api)
       .get('/organisations')
       .expect(200)
-      .end(function(err, res) {
+      .then(function(res) {
         res.body[0].should.containEql(organisation);
-        return done();
+        done();
+      })
+      .catch(function(err) {
+        done(err);
       });
   });
 
   it('should get an organisation', function(done) {
-    request(bootstrap.api)
-      .get('/organisations/' + organisation.path)
+    return request(bootstrap.api)
+      .get('/organisations/aimar')
       .expect(200)
-      .end(function(err, res) {
+      .then(function(res) {
         res.body.should.containEql(organisation);
-        return done();
+        done();
+      })
+      .catch(function(err) {
+        done(err);
       });
   });
 
@@ -76,74 +84,107 @@ describe('Organisations Endpoint', function() {
       path: 'aimarfoundation'
     };
 
-    request(bootstrap.api)
-      .put('/organisations/' + organisation.path)
+    return request(bootstrap.api)
+      .put('/organisations/aimar')
       .send(org_updated)
-      .expect(403);
-
-    request(bootstrap.api)
-      .get('/organisations/' + org_updated.path)
-      .expect(404);
-
-    request(bootstrap.api)
-      .get('/organisations/' + organisation.path)
-      .expect(200)
-      .expect(organisation)
-      .end(function(err, res) {
+      .expect(403)
+      .then(function(res) {
+        return request(bootstrap.api)
+          .get('/organisations/aimarfoundation')
+          .expect(404);
+      })
+      .then(function(res) {
+        return request(bootstrap.api)
+          .get('/organisations/aimar')
+          .expect(200)
+      })
+      .then(function(res) {
+        res.body.should.containEql(organisation);
         //Now we begin working with the real updated org
         organisation = org_updated;
+        done();
+      })
+      .catch(function(err) {
+        done(err);
       });
+
   });
 
   it('should update an organisation', function(done) {
-    request(bootstrap.api)
-      .put('/organisations/' + organisation.path)
+    //Organisation path is still Aimar, so use that once
+    return request(bootstrap.api)
+      .put('/organisations/aimar')
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .send(organisation)
       .expect(200)
-      .end(function(err, res) {
+      .then(function(res) {
         res.body.should.containEql(organisation);
-      })
 
-    request(bootstrap.api)
-      .get('/organisations/' + organisation.path)
-      .expect(200)
-      .end(function(err, res) {
+        return request(bootstrap.api)
+          .get('/organisations/aimarfoundation')
+          .expect(200);
+      })
+      .then(function(res) {
         res.body.should.containEql(organisation);
+        done();
+      })
+      .catch(function(err) {
+        done(err);
       });
   });
 
   it('should not delete an organisation without CSRF token', function(done) {
-    request(bootstrap.api)
-      .delete('/organisations/' + organisation.path)
-      .expect(403);
 
-    request(bootstrap.api)
-      .get('/organisations/')
-      .expect(200)
-      .expect([organisation]);
-  })
+    return request(bootstrap.api)
+      .delete('/organisations/aimarfoundation')
+      .send()
+      .expect(403)
+      .then(function(res) {
+        return request(bootstrap.api)
+          .get('/organisations/aimarfoundation')
+          .expect(200);
+      })
+      .then(function(res) {
+        res.body.should.containEql(organisation);
+        done();
+      })
+      .catch(function(err) {
+        done(err);
+      });
+
+  });
 
   it('should delete an organisation', function(done) {
-    request(bootstrap.api)
-      .delete('/organisations/' + organisation.path)
-      .expect(202);
 
-    request(bootstrap.api)
-      .get('/organisations/')
-      .expect(200)
-      .end(function(err, res) {
-        res.body.should.equal([]);
+    return request(bootstrap.api)
+      .del('/organisations/aimarfoundation')
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
+      .expect(202)
+      .then(function(res) {
+
+        return request(bootstrap.api)
+          .get('/organisations/')
+          .expect(200);
+
       })
+      .then(function(res) {
+        res.body.should.be.empty;
 
-    request(bootstrap.api)
-      .get('/organisations/' + organisation.path)
-      .expect(404)
-      .end(function(err, res) {
-        res.body.errors.code.should.equal(404);
-        res.body.errors.message.should.equal('An organisation with that path was not found');
-
+        request(bootstrap.api)
+          .get('/organisations/aimarfoundation')
+          .expect(404);
+      })
+      .then(function(res) {
+        //res.body.errors.code.should.equal(404);
+        //res.body.errors.message.should.equal('An organisation with that path was not found');
         done();
+      })
+      .catch(function(err) {
+        done(err);
       });
-  })
-  */
+
+  });
+
 });

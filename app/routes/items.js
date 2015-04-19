@@ -16,7 +16,7 @@ module.exports = function(Strider) {
   var items = express.Router();
 
   items.all('/', function(req, res, next) {
-    restful(req, res, {
+    restful(req, res, next, {
       GET: function(req, res, next) {
         Item.find(function(err, items) {
           if (err) {
@@ -47,7 +47,7 @@ module.exports = function(Strider) {
   });
 
   items.all('/:id', function(req, res, next) {
-    restful(req, res, {
+    restful(req, res, next, {
       GET: function(req, res, next) {
         Item.findOne({
           _id: req.params.id

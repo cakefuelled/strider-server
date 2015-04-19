@@ -28,35 +28,13 @@ module.exports = function(Strider) {
   require('./routes/users.js')(Strider);
 
   // Error handlers
-  Strider.app.use(function(err, req, res, next) {
-    console.log("!!!!!!!!!!!!!!!!!!!!!Going again");
-    console.log(req.headers);
-    console.log(err);
-    if (err.code !== 'EBADCSRFTOKEN') next(err);
-
-    //Handle CSRF Token errors 
-    log.debug('Invalid or missing CSRF Token');
-    res.status(403).send({
-      errors: [403],
-      message: 'Invalid or missing CSRF Token'
-    });
-    return;
-  });
+  require('./middleware/errors.js')(Strider);
 
   Strider.app.use(function(req, res, next) {
     log.debug('Non existing endpoint: %s', req.url);
     res.status(501).send({
       errors: [501],
       message: 'Requested endpoint does not exist'
-    });
-    return;
-  });
-
-  Strider.app.use(function(req, res, next) {
-    log.error('Internal error(%d): %s', res.statusCode, err.message);
-    res.status(err.status || 500).send({
-      errors: [500],
-      message: 'Please get in touch with the devs'
     });
     return;
   });
