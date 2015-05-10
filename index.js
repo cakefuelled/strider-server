@@ -15,6 +15,7 @@ var express = require('express'),
   csrf = require('csurf'),
   cookieParser = require('cookie-parser'),
   session = require('express-session'),
+  acl = require('acl'),
   // Models
   User = require('./app/models/user.js'),
   // Libs
@@ -52,7 +53,24 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
   log.info("Connected to MongoDB");
+
+  // Once connected, set up ACL and default entitlements
+  Strider.acl = new acl(new acl.mongodbBackend(mongoose.connection.db, 'acl_'));
+  //Strider.acl.allow(require('./app/entitlements/entl-admin.json'));
+  //
+  // Set up API routes
+  require('./app/routes.js')(Strider);
+
+  // Start the server
+  Strider.app.listen(Strider.port, Strider.ipaddress, function() {
+    log.info('Strider API v%s started on %s:%s%s',
+      Strider.version,
+      Strider.ipaddress,
+      Strider.port,
+      Strider.api_dir);
+  });
 });
+
 
 // Set up passport
 passport.use(new LocalStrategy({
@@ -103,18 +121,6 @@ Strider.app.use(Strider.csrfProtection);
 Strider.app.use(function(req, res, next) {
   res.cookie('xsrf-token', req.csrfToken());
   return next();
-});
-
-// Set up API routes
-require('./app/routes.js')(Strider);
-
-// Start the server
-Strider.app.listen(Strider.port, Strider.ipaddress, function() {
-  log.info('Strider API v%s started on %s:%s%s',
-    Strider.version,
-    Strider.ipaddress,
-    Strider.port,
-    Strider.api_dir);
 });
 
 // Error handling

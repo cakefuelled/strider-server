@@ -3,6 +3,8 @@
  * Authentication manager
  */
 
+var HttpError = require('httperrors');
+
 var openPaths = [{
   path: '/users',
   method: 'post'
@@ -60,10 +62,7 @@ module.exports = {
 
     // check if the user is logged in
     if (!req.isAuthenticated()) {
-      res.status(401).send({
-        errors: [401],
-        message: 'You need to login first'
-      });
+      return next(new HttpError.Unauthorized('You need to login first'));
     } else {
       return next();
     }

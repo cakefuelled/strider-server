@@ -41,9 +41,7 @@ module.exports = function(Strider) {
   //Catch all - Any errors that get here are unknowns
   Strider.app.use(function(err, req, res, next) {
     //Return a generic error
-    res.status(err.status || 500).send({
-      errors: [500],
-      message: 'An unexpected error occured, please contact the developers'
-    });
+    var httpErr = new HttpError.InternalServerError('An unexpected error occured, please contact the developers');
+    res.status(httpErr.statusCode).send(httpErr);
   });
 }

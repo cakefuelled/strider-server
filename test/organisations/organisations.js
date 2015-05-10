@@ -12,6 +12,9 @@ var should = require('should'),
 
 before(function(done) {
   bootstrap.clearDB(done);
+  //bootstrap.initAnonCookies();
+  //bootstrap.createUser("Tester1", "test1@gmail.com", "password");
+  //bootstrap.loginUser("test1@gmail.com", "password");
 });
 
 describe('Organisations Endpoint', function() {

@@ -5,10 +5,6 @@ var should = require('should'),
   request = require('supertest'),
   util = require('util'),
   fs = require('fs'),
-  // Libraries
-  crypter = require('../../app/crypto/crypter.js'),
-  // Models
-  User = require('../../app/models/user.js'),
   // Tests bootstrap
   bootstrap = require('../bootstrap.js')(),
   // Global variables
