@@ -31,6 +31,8 @@ describe('Items Endpoint', function() {
 
     request(bootstrap.api)
       .post('/items')
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .send(item)
       .expect(403)
       .end(function(err, res) {
@@ -58,6 +60,8 @@ describe('Items Endpoint', function() {
   it('should list all items', function(done) {
     request(bootstrap.api)
       .get('/items')
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .expect(200)
       .expect([item], done());
   });
@@ -82,11 +86,15 @@ describe('Items Endpoint', function() {
 
     request(bootstrap.api)
       .put('/items/' + item.id)
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .send(item_updated)
       .expect(403);
 
     request(bootstrap.api)
       .get('/items/' + item.id)
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .expect(200)
       .expect(item, done())
       .end(function(err, res) {
@@ -98,12 +106,16 @@ describe('Items Endpoint', function() {
   it('should update an item', function(done) {
     request(bootstrap.api)
       .put('/items/' + item.id)
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .send(item)
       .expect(200)
       .expect(item);
 
     request(bootstrap.api)
       .get('/items/' + item.id)
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies())
       .expect(200)
       .expect(item, done());
   });

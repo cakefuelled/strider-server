@@ -3,11 +3,16 @@ var mongoose = require("mongoose"),
 
 // Define the MongoDB Schema
 var locationSchema = new mongoose.Schema({
-  name: {
+  id: {
     type: String,
     required: true,
     trim: true,
     unique: true
+  },
+  name: {
+    type: String,
+    required: true,
+    trim: true
   },
   address: {
     type: String,
@@ -16,6 +21,10 @@ var locationSchema = new mongoose.Schema({
   postcode: {
     type: String,
     required: true
+  },
+  organisation: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organisation'
   },
   contact: {
     type: String,
@@ -26,23 +35,12 @@ var locationSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true
-  }
+  },
   updates: [Update.schema]
 
 });
 
 // Automatically log updates
-locationSchema.pre('save', require('./utils/audit-logger.js'));
-
-locationSchema.statics.findByPostcode = function(postcode, cb) {
-
-  // 'this' will refer to the Location model, but could be a promise
-  var Location = this || mongoose.model('Location');
-
-  // pass given callback as the callback for the findOne method
-  Location.findOne({
-    postcode: postcode
-  }, cb);
-};
+//locationSchema.pre('save', require('./utils/audit-logger.js'));
 
 module.exports = mongoose.model('Location', locationSchema);

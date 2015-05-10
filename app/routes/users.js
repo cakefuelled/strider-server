@@ -32,9 +32,9 @@ module.exports = function(Strider) {
     res.send(user);
   });
 
-  users.all('/', function(req, res) {
-    restful(req, res, {
-      POST: function(req, res) {
+  users.all('/', function(req, res, next) {
+    restful(req, res, next, {
+      POST: function(req, res, next) {
         var user = new User({
           name: req.body.name,
           pwd: crypter.apply(req.body.pwd),
@@ -55,7 +55,7 @@ module.exports = function(Strider) {
           }
         });
       },
-      GET: function(req, res) {
+      GET: function(req, res, next) {
 
         // Some defaults
         var limit = parseInt(req.query.limit) || 10,
@@ -92,10 +92,10 @@ module.exports = function(Strider) {
   users.delete('/:id', auth.authorized);
 
   // Specific users
-  users.all('/:id', function(req, res) {
+  users.all('/:id', function(req, res, next) {
     var userid = req.params['id'];
-    restful(req, res, {
-      GET: function(req, res) {
+    restful(req, res, next, {
+      GET: function(req, res, next) {
         // Search for the user
         User.findOne()
           .select("-email -pwd") // exclude the email
@@ -118,7 +118,7 @@ module.exports = function(Strider) {
             }
           });
       },
-      PUT: function(req, res) {
+      PUT: function(req, res, next) {
         // Check if it's a valid Mongo id
         User.findById(userid, function(err, user) {
           if (err) {
@@ -143,7 +143,7 @@ module.exports = function(Strider) {
           });
         });
       },
-      DELETE: function(req, res) {
+      DELETE: function(req, res, next) {
         // TODO implement this endpoint
         res.send({
           message: 'DELETE User endpoint for id ' + userid

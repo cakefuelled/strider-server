@@ -9,15 +9,14 @@ var express = require('express'),
   auth = require('../middleware/auth.js'),
   restful = require('../middleware/restful.js'),
   // Models
-  Item = require('../models/item'),
-  Organisation = require('../models/organisation'),
-  Location = require('../models/location');
+  Location = require('../models/location'),
+  Organisation = require('../models/organisation');
 
 module.exports = function(Strider) {
 
-  var itemsRouter = express.Router();
+  var locationsRouter = express.Router();
 
-  itemsRouter.all('/:orgPath/items/', function(req, res, next) {
+  locationsRouter.all('/:orgPath/locations/', function(req, res, next) {
     restful(req, res, next, {
       GET: function(req, res, next) {
         Organisation.findOne({
@@ -27,14 +26,14 @@ module.exports = function(Strider) {
             return next(err);
           }
 
-          Item.find({
+          Location.find({
             organisation: org._id
-          }, function(err, items) {
+          }, function(err, locations) {
             if (err) {
               return next(err);
             }
 
-            res.send(items);
+            res.send(locations);
           })
         });
       },
@@ -46,34 +45,28 @@ module.exports = function(Strider) {
           if (err) {
             return next(err);
           }
-          Location.findOne({
-            id: req.body.location
-          }, function(err, loc) {
+          var newLocation = new Location({
+            id: req.body.id,
+            name: req.body.name,
+            address: req.body.address,
+            postcode: req.body.postcode,
+            organisation: org._id,
+            type: req.body.type
+          });
+
+          newLocation.save(function(err, newLocation) {
             if (err) {
               return next(err);
             }
-            var newItem = new Item({
-              id: req.body.id,
-              type: req.body.type,
-              organisation: org._id,
-              location: loc._id
-            });
 
-            newItem.save(function(err, newItem) {
-              if (err) {
-                return next(err);
-              }
-
-              res.send(newItem);
-            });
-
+            res.send(newLocation);
           });
-        });
+        })
       }
-    });
+    })
   });
 
-  itemsRouter.all('/:orgPath/items/:id', function(req, res, next) {
+  locationsRouter.all('/:orgPath/locations/:id', function(req, res, next) {
     restful(req, res, next, {
       GET: function(req, res, next) {
         Organisation.findOne({
@@ -83,16 +76,15 @@ module.exports = function(Strider) {
             return next(err);
           }
 
-          Item.findOne({
+          Location.findOne({
             id: req.params.id,
             organisation: org._id
-
-          }, function(err, item) {
+          }, function(err, location) {
             if (err) {
               return next(err);
             }
 
-            res.send(item);
+            res.send(location);
           })
         });
       },
@@ -106,6 +98,6 @@ module.exports = function(Strider) {
     })
   });
 
-  Strider.app.use('/organisations', itemsRouter);
-  //Strider.app.use('/organisations/:orgPath/items', auth.authenticated, itemsRouter);
+  Strider.app.use('/organisations', locationsRouter);
+  //Strider.app.use('/organisations/:orgPath/items', auth.authenticated, items);
 };
