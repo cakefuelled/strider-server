@@ -12,8 +12,10 @@ var express = require('express'),
   mongoose = require('mongoose'),
   passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
+  csrf = require('csurf'),
   cookieParser = require('cookie-parser'),
   session = require('express-session'),
+  acl = require('acl'),
   // Models
   User = require('./app/models/user.js'),
   // Libs
@@ -37,6 +39,10 @@ var Strider = {
   router: express.Router(),
   version: require('./package.json').version,
   events: new events.EventEmitter(),
+  csrfProtection: csrf({
+    cookie: true,
+    ignoreMethods: ['GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE'] //IMPORTANT: Remove this before prod
+  }),
   mongo: mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO),
   analytics: require('./app/middleware/analytics.js')
 };
@@ -48,7 +54,24 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
   log.info("Connected to MongoDB");
+
+  // Once connected, set up ACL and default entitlements
+  Strider.acl = new acl(new acl.mongodbBackend(mongoose.connection.db, 'acl_'));
+  //Strider.acl.allow(require('./app/entitlements/entl-admin.json'));
+  //
+  // Set up API routes
+  require('./app/routes.js')(Strider);
+
+  // Start the server
+  Strider.app.listen(Strider.port, Strider.ipaddress, function() {
+    log.info('Strider API v%s started on %s:%s%s',
+      Strider.version,
+      Strider.ipaddress,
+      Strider.port,
+      Strider.api_dir);
+  });
 });
+
 
 // Set up passport
 passport.use(new LocalStrategy({
@@ -82,31 +105,34 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+//CORS middleware
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', process.env.CLIENT || 'http://localhost:8000');
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+}
+
 // Set up express middleware
+Strider.app.use(allowCrossDomain);
 Strider.app.use(bodyParser.urlencoded({
   extended: true
 }));
 Strider.app.use(bodyParser.json());
-Strider.app.use(cookieParser());
+Strider.app.use(cookieParser('secret'));
 Strider.app.use(session({
   secret: process.env.SESSION_SECRET || 'Strider',
   resave: true,
   saveUninitialized: true
-}))
+}));
 Strider.app.use(passport.initialize());
 Strider.app.use(passport.session());
-
-
-// Set up API routes
-require('./app/router.js')(Strider);
-
-// Start the server
-Strider.app.listen(Strider.port, Strider.ipaddress, function() {
-  log.info('Strider API v%s started on %s:%s%s',
-    Strider.version,
-    Strider.ipaddress,
-    Strider.port,
-    Strider.api_dir);
+Strider.app.use(Strider.csrfProtection);
+Strider.app.use(function(req, res, next) {
+  res.cookie('xsrf-token', req.csrfToken());
+  return next();
 });
 
 // Error handling

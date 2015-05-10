@@ -1,5 +1,5 @@
 # Strider
-> The best bit of inventory management ever
+> The best inventory management system on the planet
 
 [![Build Status](http://img.shields.io/travis/cakefuelled/strider-api/master.svg?style=flat-square)](https://travis-ci.org/cakefuelled/strider-api)
 [![Dependency Status](http://img.shields.io/david/cakefuelled/strider-api.svg?style=flat-square)](https://david-dm.org/cakefuelled/strider-api)

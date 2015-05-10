@@ -17,14 +17,19 @@
  * Source: http://stackoverflow.com/a/15754373/1262824
  */
 
-module.exports = function(req, res, handlers) {
+module.exports = function(req, res, next, handlers) {
   var method = req.method;
+  if(method.toUpperCase() === 'OPTIONS'){
+    res.status(200).send();
+    return;
+  }
   if (!(method in handlers)) {
     res.set('Allow', Object.keys(handlers).join(', ').toUpperCase());
     res.status(405).send({
       errors: [405]
     });
+    next();
   } else {
-    handlers[method](req, res);
+    handlers[method](req, res, next);
   }
 }

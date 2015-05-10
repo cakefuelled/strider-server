@@ -6,7 +6,6 @@ var mongoose = require("mongoose"),
 var itemSchema = new mongoose.Schema({
   id: {
     type: String,
-    required: true,
     trim: true,
     unique: true
   },
@@ -15,13 +14,29 @@ var itemSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  alternate_id: {
-    type: String,
+  organisation: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organisation'
   },
+  location: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Location'
+  },
+  altIds: [{
+    id: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    type: {
+      type: String,
+      required: true
+    }
+  }],
   updates: [Update.schema]
 });
 
 //Automatically update the audit trail
-itemSchema.pre('save', require('./utils/audit-logger.js'));
+//itemSchema.pre('save', require('./utils/audit-logger.js'));
 
 module.exports = mongoose.model('Item', itemSchema);
