@@ -81,7 +81,18 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+//CORS middleware
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', process.env.CLIENT || 'http://localhost:8000');
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+}
+
 // Set up express middleware
+Strider.app.use(allowCrossDomain);
 Strider.app.use(bodyParser.urlencoded({
   extended: true
 }));

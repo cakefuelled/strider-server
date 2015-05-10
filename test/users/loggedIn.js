@@ -5,6 +5,7 @@ var should = require('should'),
   request = require('supertest'),
   util = require('util'),
   fs = require('fs'),
+  mongoose = require('mongoose'),
   // Libraries
   crypter = require('../../app/crypto/crypter.js'),
   // Models
@@ -126,6 +127,21 @@ describe('Authorized /users endpoint', function() {
           if (err) {
             return done(err)
           }
+          done()
+        })
+    });
+
+    it('should return current user', function(done) {
+      request(bootstrap.api)
+        .get('/users/current')
+        .set('cookie', cookie)
+        .expect(200)
+        .end(function(err, res) {
+          if (err) {
+            return done(err)
+          }
+          res.body.should.have.property('_id', users[0].toHexString());
+          res.body.should.not.have.property('pwd');
           done()
         })
     });

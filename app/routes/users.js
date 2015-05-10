@@ -25,6 +25,13 @@ module.exports = function(Strider) {
 
   var users = express.Router();
 
+  users.get('/current', function(req, res) {
+    // "Deep" copy of the user object to remove fields
+    var user = JSON.parse(JSON.stringify(req.user));
+    delete user.pwd;
+    res.send(user);
+  });
+
   users.all('/', function(req, res) {
     restful(req, res, {
       POST: function(req, res) {

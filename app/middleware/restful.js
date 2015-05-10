@@ -19,6 +19,10 @@
 
 module.exports = function(req, res, handlers) {
   var method = req.method;
+  if(method.toUpperCase() === 'OPTIONS'){
+    res.status(200).send();
+    return;
+  }
   if (!(method in handlers)) {
     res.set('Allow', Object.keys(handlers).join(', ').toUpperCase());
     res.status(405).send({
