@@ -40,7 +40,8 @@ var Strider = {
   version: require('./package.json').version,
   events: new events.EventEmitter(),
   csrfProtection: csrf({
-    cookie: true
+    cookie: true,
+    ignoreMethods: ['GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE'] //IMPORTANT: Remove this before prod
   }),
   mongo: mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO),
   analytics: require('./app/middleware/analytics.js')

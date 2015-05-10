@@ -25,6 +25,7 @@ module.exports = function(Strider) {
   require('./routes/auth.js')(Strider);
   require('./routes/items.js')(Strider);
   require('./routes/organisations.js')(Strider);
+  require('./routes/locations.js')(Strider);
   require('./routes/users.js')(Strider);
 
   // Error handlers

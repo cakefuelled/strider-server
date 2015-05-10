@@ -91,5 +91,6 @@ module.exports = function(Strider) {
     });
   });
 
-  Strider.app.use('/organisations', auth.authenticated, organisationsRouter);
+  Strider.app.use('/organisations', organisationsRouter);
+  //Strider.app.use('/organisations', auth.authenticated, organisationsRouter);
 };
