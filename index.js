@@ -83,7 +83,8 @@ passport.deserializeUser(function(id, done) {
 
 //CORS middleware
 var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8000');
+    res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -91,12 +92,12 @@ var allowCrossDomain = function(req, res, next) {
 }
 
 // Set up express middleware
+Strider.app.use(allowCrossDomain);
 Strider.app.use(bodyParser.urlencoded({
   extended: true
 }));
 Strider.app.use(bodyParser.json());
 Strider.app.use(cookieParser());
-Strider.app.use(allowCrossDomain);
 Strider.app.use(session({
   secret: process.env.SESSION_SECRET || 'Strider',
   resave: true,
