@@ -22,25 +22,20 @@ module.exports = function(Strider) {
   });
 
   // Object routes
-  require('./routes/items.js')(Strider);
-  require('./routes/users.js')(Strider);
   require('./routes/auth.js')(Strider);
+  require('./routes/items.js')(Strider);
+  require('./routes/organisations.js')(Strider);
+  require('./routes/locations.js')(Strider);
+  require('./routes/users.js')(Strider);
 
   // Error handlers
+  require('./middleware/errors.js')(Strider);
+
   Strider.app.use(function(req, res, next) {
     log.debug('Non existing endpoint: %s', req.url);
     res.status(501).send({
       errors: [501],
       message: 'Requested endpoint does not exist'
-    });
-    return;
-  });
-
-  Strider.app.use(function(err, req, res) {
-    log.error('Internal error(%d): %s', res.statusCode, err.message);
-    res.status(err.status || 500).send({
-      errors: [500],
-      message: 'Please get in touch with the devs'
     });
     return;
   });

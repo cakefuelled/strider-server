@@ -39,7 +39,7 @@ describe('API server', function() {
           if (res.body.version !== pjson.version) {
             return done(err)
           }
-          done()
+          done();
         })
     });
   });

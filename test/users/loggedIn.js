@@ -85,6 +85,8 @@ describe('Authorized /users endpoint', function() {
     // get the login cookie for user 1.
     request(bootstrap.api)
       .post('/auth/login')
+      .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+      .set('cookie', bootstrap.getCookies().concat(cookie))
       .send({
         email: "test1@gmail.com",
         pwd: "password"
@@ -108,7 +110,8 @@ describe('Authorized /users endpoint', function() {
     it('should not allow put', function(done) {
       request(bootstrap.api)
         .put('/users')
-        .set('cookie', cookie)
+        .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+        .set('cookie', bootstrap.getCookies().concat(cookie))
         .expect(405)
         .end(function(err, res) {
           if (err) {
@@ -121,7 +124,8 @@ describe('Authorized /users endpoint', function() {
     it('should not allow delete', function(done) {
       request(bootstrap.api)
         .delete('/users')
-        .set('cookie', cookie)
+        .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+        .set('cookie', bootstrap.getCookies().concat(cookie))
         .expect(405)
         .end(function(err, res) {
           if (err) {
@@ -152,7 +156,8 @@ describe('Authorized /users endpoint', function() {
     it('should allow to get specific user', function(done) {
       request(bootstrap.api)
         .get('/users/' + users[0])
-        .set('cookie', cookie)
+        .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+        .set('cookie', bootstrap.getCookies().concat(cookie))
         .expect(200)
         .end(function(err, res) {
           if (err) {
@@ -167,7 +172,8 @@ describe('Authorized /users endpoint', function() {
       var nonExistingUser = "000000000000000000000000";
       request(bootstrap.api)
         .get('/users/' + nonExistingUser)
-        .set('cookie', cookie)
+        .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+        .set('cookie', bootstrap.getCookies().concat(cookie))
         .expect(404)
         .end(function(err, res) {
           if (err) {
@@ -181,7 +187,8 @@ describe('Authorized /users endpoint', function() {
     it('should not allow post', function(done) {
       request(bootstrap.api)
         .post('/users/1')
-        .set('cookie', cookie)
+        .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+        .set('cookie', bootstrap.getCookies().concat(cookie))
         .expect(405)
         .end(function(err, res) {
           if (err) {
@@ -194,7 +201,8 @@ describe('Authorized /users endpoint', function() {
     it('should allow delete to same id', function(done) {
       request(bootstrap.api)
         .delete('/users/' + users[0])
-        .set('cookie', cookie)
+        .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+        .set('cookie', bootstrap.getCookies().concat(cookie))
         .expect(200)
         .end(function(err, res) {
           if (err) {
@@ -207,7 +215,8 @@ describe('Authorized /users endpoint', function() {
     it('should not allow put to different id', function(done) {
       request(bootstrap.api)
         .put('/users/' + users[1])
-        .set('cookie', cookie)
+        .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+        .set('cookie', bootstrap.getCookies().concat(cookie))
         .expect(403)
         .end(function(err, res) {
           if (err) {
@@ -220,7 +229,8 @@ describe('Authorized /users endpoint', function() {
     it('should not allow delete to different id', function(done) {
       request(bootstrap.api)
         .delete('/users/' + users[1])
-        .set('cookie', cookie)
+        .set('X-XSRF-TOKEN', bootstrap.getCSRF())
+        .set('cookie', bootstrap.getCookies().concat(cookie))
         .expect(403)
         .end(function(err, res) {
           if (err) {
