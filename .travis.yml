@@ -14,5 +14,6 @@ services:
 env:
   matrix:
   - MONGO=mongodb://127.0.0.1:27017/strider
+  - CLIENT=http://web.getstrider.com
   global:
     secure: bjWHNP+zF1Wx4sXTy089EsVdoHUpmtYR7vySO8PSf+LTLzS/2d3OU83yN9BxwoGTL0yxaXU4bNxtShwCFE3c66oxHmfHaPe3p4D7LdEmSeewTYtWTgOEi9OiuEgpWBva8twxHC5FFkAEQQ9sAzwyBVe3JIWbRqwABLuDPWa/M0o=
