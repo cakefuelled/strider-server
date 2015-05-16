@@ -94,7 +94,7 @@ module.exports = function() {
   };
 
   tests.setCookies = function(cookies) {
-    process.env.Cookies = cookies;
+    process.env.Cookies = cookies.join(';');
   };
 
   tests.getCookies = function() {

@@ -9,8 +9,7 @@ var should = require('should'),
 /*
  * Global before() operations
  */
-
-before(function(done) {
+/*before(function(done) {
   bootstrap.clearDB(done);
 });
 
@@ -155,3 +154,4 @@ describe('Items Endpoint', function() {
 
 
 });
+*/
