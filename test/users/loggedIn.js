@@ -13,7 +13,6 @@ var should = require('should'),
   // Tests bootstrap
   bootstrap = require('../bootstrap.js')(),
   // Global variables
-  cookie = '',
   users = [];
 
 describe('Authorized /users endpoint', function() {
@@ -86,7 +85,6 @@ describe('Authorized /users endpoint', function() {
     request(bootstrap.api)
       .post('/auth/login')
       .set('X-XSRF-TOKEN', bootstrap.getCSRF())
-      .set('cookie', bootstrap.getCookies().concat(cookie))
       .send({
         email: "test1@gmail.com",
         pwd: "password"
@@ -100,7 +98,7 @@ describe('Authorized /users endpoint', function() {
         res.body.should.have.property('email', "test1@gmail.com");
         res.body.should.not.have.property('pwd');
 
-        cookie = res.headers['set-cookie'];
+        bootstrap.setCookies(res.headers['set-cookie']);
         return done();
       });
   });
@@ -111,7 +109,7 @@ describe('Authorized /users endpoint', function() {
       request(bootstrap.api)
         .put('/users')
         .set('X-XSRF-TOKEN', bootstrap.getCSRF())
-        .set('cookie', bootstrap.getCookies().concat(cookie))
+        .set('cookie', bootstrap.getCookies())
         .expect(405)
         .end(function(err, res) {
           if (err) {
@@ -125,7 +123,7 @@ describe('Authorized /users endpoint', function() {
       request(bootstrap.api)
         .delete('/users')
         .set('X-XSRF-TOKEN', bootstrap.getCSRF())
-        .set('cookie', bootstrap.getCookies().concat(cookie))
+        .set('cookie', bootstrap.getCookies())
         .expect(405)
         .end(function(err, res) {
           if (err) {
@@ -138,7 +136,7 @@ describe('Authorized /users endpoint', function() {
     it('should return current user', function(done) {
       request(bootstrap.api)
         .get('/users/current')
-        .set('cookie', cookie)
+        .set('cookie', bootstrap.getCookies())
         .expect(200)
         .end(function(err, res) {
           if (err) {
@@ -157,7 +155,7 @@ describe('Authorized /users endpoint', function() {
       request(bootstrap.api)
         .get('/users/' + users[0])
         .set('X-XSRF-TOKEN', bootstrap.getCSRF())
-        .set('cookie', bootstrap.getCookies().concat(cookie))
+        .set('cookie', bootstrap.getCookies())
         .expect(200)
         .end(function(err, res) {
           if (err) {
@@ -173,7 +171,7 @@ describe('Authorized /users endpoint', function() {
       request(bootstrap.api)
         .get('/users/' + nonExistingUser)
         .set('X-XSRF-TOKEN', bootstrap.getCSRF())
-        .set('cookie', bootstrap.getCookies().concat(cookie))
+        .set('cookie', bootstrap.getCookies())
         .expect(404)
         .end(function(err, res) {
           if (err) {
@@ -188,7 +186,7 @@ describe('Authorized /users endpoint', function() {
       request(bootstrap.api)
         .post('/users/1')
         .set('X-XSRF-TOKEN', bootstrap.getCSRF())
-        .set('cookie', bootstrap.getCookies().concat(cookie))
+        .set('cookie', bootstrap.getCookies())
         .expect(405)
         .end(function(err, res) {
           if (err) {
@@ -202,7 +200,7 @@ describe('Authorized /users endpoint', function() {
       request(bootstrap.api)
         .delete('/users/' + users[0])
         .set('X-XSRF-TOKEN', bootstrap.getCSRF())
-        .set('cookie', bootstrap.getCookies().concat(cookie))
+        .set('cookie', bootstrap.getCookies())
         .expect(200)
         .end(function(err, res) {
           if (err) {
@@ -216,7 +214,7 @@ describe('Authorized /users endpoint', function() {
       request(bootstrap.api)
         .put('/users/' + users[1])
         .set('X-XSRF-TOKEN', bootstrap.getCSRF())
-        .set('cookie', bootstrap.getCookies().concat(cookie))
+        .set('cookie', bootstrap.getCookies())
         .expect(403)
         .end(function(err, res) {
           if (err) {
@@ -230,7 +228,7 @@ describe('Authorized /users endpoint', function() {
       request(bootstrap.api)
         .delete('/users/' + users[1])
         .set('X-XSRF-TOKEN', bootstrap.getCSRF())
-        .set('cookie', bootstrap.getCookies().concat(cookie))
+        .set('cookie', bootstrap.getCookies())
         .expect(403)
         .end(function(err, res) {
           if (err) {
