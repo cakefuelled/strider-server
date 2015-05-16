@@ -9,8 +9,7 @@ var should = require('should'),
 /*
  * Global before() operations
  */
-
-before(function(done) {
+/*before(function(done) {
   bootstrap.clearDB(done);
   //bootstrap.initAnonCookies();
   //bootstrap.createUser("Tester1", "test1@gmail.com", "password");
@@ -191,3 +190,4 @@ describe('Organisations Endpoint', function() {
   });
 
 });
+*/
