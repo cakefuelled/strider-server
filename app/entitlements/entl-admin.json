@@ -1,7 +1,0 @@
-[{
-  "roles": ["admin"],
-  "allows": [{
-    "resources": "organisations",
-    "permissions": ["*"]
-  }]
-}]
