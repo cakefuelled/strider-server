@@ -29,5 +29,9 @@
   "Item": {
     "dataSource": "db",
     "public": true
+  },
+  "Location": {
+    "dataSource": "Mongodb",
+    "public": true
   }
 }
