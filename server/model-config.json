@@ -26,12 +26,28 @@
     "dataSource": "db",
     "public": false
   },
-  "Item": {
-    "dataSource": "db",
-    "public": true
-  },
-  "Location": {
+  "organisation": {
     "dataSource": "Mongodb",
     "public": true
+  },
+  "item": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "location": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "movement": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "contact": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "locationType": {
+    "dataSource": "Mongodb",
+    "public": false
   }
 }

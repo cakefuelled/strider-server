@@ -1,34 +1,34 @@
 {
-  "name": "location",
+  "name": "organisation",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
+    "path": {
+      "type": "string",
+      "required": true
+    },
     "name": {
       "type": "string",
       "required": true
     },
-    "address": {
-      "type": "string",
-      "required": true
-    },
-    "postcode": {
+    "domain": {
       "type": "string",
       "required": true
     }
   },
   "validations": [],
   "relations": {
-    "locationTypes": {
-      "type": "hasOne",
-      "model": "locationType",
+    "items": {
+      "type": "hasMany",
+      "model": "item",
       "foreignKey": ""
     },
-    "contacts": {
+    "locations": {
       "type": "hasMany",
-      "model": "contact",
+      "model": "location",
       "foreignKey": ""
     }
   },

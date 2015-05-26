@@ -1,22 +1,21 @@
 {
-  "name": "item",
+  "name": "movement",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "altIds": {
-      "type": [
-        "string"
-      ]
+    "date": {
+      "type": "date",
+      "required": true
     }
   },
   "validations": [],
   "relations": {
-    "movements": {
-      "type": "hasMany",
-      "model": "movement",
+    "location": {
+      "type": "hasOne",
+      "model": "location",
       "foreignKey": ""
     }
   },

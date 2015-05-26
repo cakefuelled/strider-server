@@ -1,37 +1,30 @@
 {
-  "name": "location",
+  "name": "contact",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "name": {
+    "firstName": {
       "type": "string",
       "required": true
     },
-    "address": {
+    "lastName": {
       "type": "string",
       "required": true
     },
-    "postcode": {
+    "email": {
       "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "number",
       "required": true
     }
   },
   "validations": [],
-  "relations": {
-    "locationTypes": {
-      "type": "hasOne",
-      "model": "locationType",
-      "foreignKey": ""
-    },
-    "contacts": {
-      "type": "hasMany",
-      "model": "contact",
-      "foreignKey": ""
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": []
 }
