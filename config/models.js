@@ -17,7 +17,7 @@ module.exports.models = {
   * connections (see `config/connections.js`)                                *
   *                                                                          *
   ***************************************************************************/
-  // connection: 'localDiskDb',
+  connection: 'striderMongo',
 
   /***************************************************************************
   *                                                                          *
@@ -27,6 +27,8 @@ module.exports.models = {
   * See http://sailsjs.org/#!/documentation/concepts/ORM/model-settings.html  *
   *                                                                          *
   ***************************************************************************/
-  // migrate: 'alter'
+  // TODO Make sure this is safe when running in prod with real data
+  // TODO It wouldnt hurt to back it up often...
+  migrate: 'drop'
 
 };
