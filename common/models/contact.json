@@ -1,5 +1,5 @@
 {
-  "name": "contact",
+  "name": "Contact",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

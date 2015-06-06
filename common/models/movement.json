@@ -1,5 +1,5 @@
 {
-  "name": "movement",
+  "name": "Movement",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -13,9 +13,9 @@
   },
   "validations": [],
   "relations": {
-    "location": {
+    "Locations": {
       "type": "hasOne",
-      "model": "location",
+      "model": "Location",
       "foreignKey": ""
     }
   },

@@ -1,5 +1,5 @@
 {
-  "name": "locationType",
+  "name": "LocationType",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

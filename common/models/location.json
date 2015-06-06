@@ -1,5 +1,5 @@
 {
-  "name": "location",
+  "name": "Location",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -21,14 +21,14 @@
   },
   "validations": [],
   "relations": {
-    "locationTypes": {
+    "LocationTypes": {
       "type": "hasOne",
-      "model": "locationType",
+      "model": "LocationType",
       "foreignKey": ""
     },
-    "contacts": {
+    "Contacts": {
       "type": "hasMany",
-      "model": "contact",
+      "model": "Contact",
       "foreignKey": ""
     }
   },

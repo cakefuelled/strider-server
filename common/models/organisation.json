@@ -1,5 +1,5 @@
 {
-  "name": "organisation",
+  "name": "Organisation",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -21,15 +21,15 @@
   },
   "validations": [],
   "relations": {
-    "items": {
+    "Items": {
       "type": "hasMany",
-      "model": "item",
-      "foreignKey": ""
+      "model": "Item",
+      "foreignKey": "orgId"
     },
-    "locations": {
+    "Locations": {
       "type": "hasMany",
-      "model": "location",
-      "foreignKey": ""
+      "model": "Location",
+      "foreignKey": "orgId"
     }
   },
   "acls": [],

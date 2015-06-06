@@ -1,5 +1,5 @@
 {
-  "name": "item",
+  "name": "Item",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -14,9 +14,9 @@
   },
   "validations": [],
   "relations": {
-    "movements": {
+    "Movements": {
       "type": "hasMany",
-      "model": "movement",
+      "model": "Movement",
       "foreignKey": ""
     }
   },
