@@ -30,6 +30,11 @@
       "type": "hasMany",
       "model": "Location",
       "foreignKey": "orgId"
+    },
+    "users": {
+      "type": "hasAndBelongsToMany",
+      "model": "user",
+      "foreignKey": ""
     }
   },
   "acls": [],

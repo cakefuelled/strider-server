@@ -8,14 +8,15 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "Mongodb",
+    "public": false
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "Mongodb",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "Mongodb",
     "public": false
   },
   "RoleMapping": {
@@ -49,5 +50,9 @@
   "LocationType": {
     "dataSource": "Mongodb",
     "public": false
+  },
+  "user": {
+    "dataSource": "Mongodb",
+    "public": true
   }
 }
