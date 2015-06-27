@@ -17,23 +17,23 @@ module.exports = function(app) {
   User.upsert(testUser, function(err, user) {
     console.log(user);
     //Try and find the org
-    var org = user.organisations.findOne({
+    user.organisations.findOne({
       path: 'aimar'
     }, function(err, userOrgRelation) {
 
-      //If it doesn't exist, create it (and stop)
+      //If it doesn't exist, create it
       if(userOrgRelation === null) {
         user.organisations.create(testOrg, function(err, org) {
           console.log(org);
         });
+      } else {
+        //If it exists
+        Organisation.findOne({
+          id: userOrgRelation.organisationId
+        }, function(err, aimarOrg) {
+          console.log(aimarOrg);
+        });
       }
-
-      //If it exists
-      Organisation.findOne({
-        id: userOrgRelation.organisationId
-      }, function(err, aimarOrg) {
-        console.log(aimarOrg);
-      });
     });
   });
 };
