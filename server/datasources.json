@@ -1,0 +1,13 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "Mongodb": {
+    "name": "Mongodb",
+    "connector": "mongodb",
+    "database": "strider",
+    "user": "admin",
+    "password": "admin"
+  }
+}

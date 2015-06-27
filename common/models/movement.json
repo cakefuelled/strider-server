@@ -1,0 +1,24 @@
+{
+  "name": "Movement",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "Locations": {
+      "type": "hasOne",
+      "model": "Location",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": []
+}

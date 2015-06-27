@@ -1,0 +1,25 @@
+{
+  "name": "Item",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "altIds": {
+      "type": [
+        "string"
+      ]
+    }
+  },
+  "validations": [],
+  "relations": {
+    "Movements": {
+      "type": "hasMany",
+      "model": "Movement",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": []
+}

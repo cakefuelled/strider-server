@@ -1,0 +1,42 @@
+{
+  "name": "Organisation",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "path": {
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "domain": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "Items": {
+      "type": "hasMany",
+      "model": "Item",
+      "foreignKey": "orgId"
+    },
+    "Locations": {
+      "type": "hasMany",
+      "model": "Location",
+      "foreignKey": "orgId"
+    },
+    "users": {
+      "type": "hasAndBelongsToMany",
+      "model": "user",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": []
+}

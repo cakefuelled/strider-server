@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ]
+  },
+  "User": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Organisation": {
+    "dataSource": "Mongodb",
+    "public": true
+  },
+  "Item": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "Location": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "Movement": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "Contact": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "LocationType": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "user": {
+    "dataSource": "Mongodb",
+    "public": true
+  }
+}
