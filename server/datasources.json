@@ -5,6 +5,9 @@
   },
   "Mongodb": {
     "name": "Mongodb",
-    "connector": "mongodb"
+    "connector": "mongodb",
+    "database": "strider",
+    "user": "admin",
+    "password": "admin"
   }
 }
