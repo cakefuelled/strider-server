@@ -6,8 +6,6 @@
   "Mongodb": {
     "name": "Mongodb",
     "connector": "mongodb",
-    "database": "strider",
-    "user": "admin",
-    "password": "admin"
+    "database": "strider"
   }
 }
