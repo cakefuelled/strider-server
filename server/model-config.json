@@ -57,6 +57,6 @@
   },
   "Category": {
     "dataSource": "Mongodb",
-    "public": true
+    "public": false
   }
 }
