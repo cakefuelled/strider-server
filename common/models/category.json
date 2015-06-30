@@ -7,17 +7,17 @@
     "validateUpsert": true
   },
   "properties": {
-    "Name": {
+    "name": {
       "type": "string",
       "required": true
     },
-    "Description": {
+    "description": {
       "type": "string"
     },
-    "Color": {
+    "colour": {
       "type": "string"
     },
-    "Icon": {
+    "icon": {
       "type": "string"
     }
   },
