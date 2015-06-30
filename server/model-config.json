@@ -33,7 +33,7 @@
   },
   "Item": {
     "dataSource": "Mongodb",
-    "public": true
+    "public": false
   },
   "Location": {
     "dataSource": "Mongodb",
