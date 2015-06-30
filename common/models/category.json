@@ -1,0 +1,34 @@
+{
+  "name": "Category",
+  "plural": "Categories",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "Description": {
+      "type": "string"
+    },
+    "Color": {
+      "type": "string"
+    },
+    "Icon": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "Parent": {
+      "type": "belongsTo",
+      "model": "Category",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": []
+}

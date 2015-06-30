@@ -4,10 +4,10 @@
     "connector": "memory"
   },
   "Mongodb": {
+    "database": "strider",
+    "password": "admin",
     "name": "Mongodb",
     "connector": "mongodb",
-    "database": "strider",
-    "user": "admin",
-    "password": "admin"
+    "user": "admin"
   }
 }
