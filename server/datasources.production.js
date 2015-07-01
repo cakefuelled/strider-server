@@ -2,8 +2,10 @@ module.exports = {
   Mongodb: {
     name: 'Mongodb',
     connector: 'mongodb',
-    database: process.env.MONGO_DB,
-    user: process.env.MONGO_USER,
-    password: process.env.MONGO_USER
+    database: 'strider',
+    host: process.env.OPENSHIFT_MONGODB_DB_HOST,
+    port: process.env.OPENSHIFT_MONGODB_DB_PORT,
+    user: process.env.OPENSHIFT_MONGODB_DB_USERNAME,
+    password: process.env.OPENSHIFT_MONGODB_DB_PASSWORD
   }
 };
