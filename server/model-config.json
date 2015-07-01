@@ -54,5 +54,13 @@
   "user": {
     "dataSource": "Mongodb",
     "public": true
+  },
+  "Category": {
+    "dataSource": "Mongodb",
+    "public": false
+  },
+  "ItemCategory": {
+    "dataSource": "Mongodb",
+    "public": true
   }
 }

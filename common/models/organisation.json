@@ -35,6 +35,11 @@
       "type": "hasAndBelongsToMany",
       "model": "user",
       "foreignKey": ""
+    },
+    "categories": {
+      "type": "hasMany",
+      "model": "Category",
+      "foreignKey": "orgId"
     }
   },
   "acls": [],
