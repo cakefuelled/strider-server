@@ -58,5 +58,9 @@
   "Category": {
     "dataSource": "Mongodb",
     "public": false
+  },
+  "ItemCategory": {
+    "dataSource": "Mongodb",
+    "public": true
   }
 }

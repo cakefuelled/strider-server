@@ -18,6 +18,12 @@
       "type": "hasMany",
       "model": "Movement",
       "foreignKey": ""
+    },
+    "Categories": {
+      "type": "hasMany",
+      "model": "Category",
+      "foreignKey": "categoryId",
+      "through": "ItemCategory"
     }
   },
   "acls": [],

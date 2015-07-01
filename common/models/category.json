@@ -27,6 +27,12 @@
       "type": "belongsTo",
       "model": "Category",
       "foreignKey": ""
+    },
+    "items": {
+      "type": "hasMany",
+      "model": "Item",
+      "foreignKey": "itemId",
+      "through": "ItemCategory"
     }
   },
   "acls": [],

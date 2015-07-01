@@ -7,6 +7,7 @@ module.exports = function(app) {
 
   var Item = app.models.Item;
   Item.nestRemoting('Movements');
+  Item.nestRemoting('Categories');
 
   var Movement = app.models.Movement;
   Movement.nestRemoting('Locations');
