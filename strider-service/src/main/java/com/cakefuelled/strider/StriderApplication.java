@@ -30,7 +30,7 @@ public class StriderApplication extends Application<StriderConfiguration> {
         final DBI jdbi = dbiFactory.build(environment, configuration.getDataSourceFactory(), "postgresql");
         final UserDAO userDAO = jdbi.onDemand(UserDAO.class);*/
 
-/*
+
         //Authenticators
         CachingAuthenticator<BasicCredentials, User> cachingAuthenticator =
                 new CachingAuthenticator<>(environment.metrics(),
@@ -44,7 +44,6 @@ public class StriderApplication extends Application<StriderConfiguration> {
                         .buildAuthFilter()));
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
-*/
 
         //Resources
         UserResource userResource = new UserResource();
