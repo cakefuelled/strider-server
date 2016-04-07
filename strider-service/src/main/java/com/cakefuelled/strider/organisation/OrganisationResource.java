@@ -1,4 +1,4 @@
-package com.cakefuelled.strider.category;
+package com.cakefuelled.strider.organisation;
 
 import com.cakefuelled.strider.user.User;
 import io.dropwizard.auth.Auth;
@@ -11,13 +11,13 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("categories")
+@Path("organisations")
 @Produces(MediaType.APPLICATION_JSON)
-public class CategoryResource {
+public class OrganisationResource {
 
     @RolesAllowed("USER")
     @GET
-    public List<Category> getCategories(@Auth User user) {
+    public List<Organisation> getOrganisations(@Auth User user) {
         return new ArrayList<>();
     }
 

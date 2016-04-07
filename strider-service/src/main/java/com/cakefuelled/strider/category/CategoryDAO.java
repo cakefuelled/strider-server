@@ -14,6 +14,6 @@ public interface CategoryDAO {
     void createCategoryTable();
 
     @SqlQuery("SELECT * FROM Category")
-    List<Category> query();
+    List<Category> query();;
 
 }
