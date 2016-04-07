@@ -3,6 +3,8 @@ package com.cakefuelled.strider;
 import com.cakefuelled.strider.auth.BasicAuthenticator;
 import com.cakefuelled.strider.auth.UserAuthorizer;
 import com.cakefuelled.strider.item.ItemResource;
+import com.cakefuelled.strider.organisation.OrganisationDAO;
+import com.cakefuelled.strider.organisation.OrganisationResource;
 import com.cakefuelled.strider.user.User;
 import com.cakefuelled.strider.user.UserDAO;
 import com.cakefuelled.strider.user.UserResource;
@@ -28,8 +30,10 @@ public class StriderApplication extends Application<StriderConfiguration> {
 
         final DBIFactory dbiFactory = new DBIFactory();
         final DBI jdbi = dbiFactory.build(environment, configuration.getDataSourceFactory(), "postgresql");
-        final UserDAO userDAO = jdbi.onDemand(UserDAO.class);
 
+        //DAOs
+        final UserDAO userDAO = jdbi.onDemand(UserDAO.class);
+        final OrganisationDAO organisationDAO = jdbi.onDemand(OrganisationDAO.class);
 
         //Authenticators
         CachingAuthenticator<BasicCredentials, User> cachingAuthenticator =
@@ -46,7 +50,10 @@ public class StriderApplication extends Application<StriderConfiguration> {
         environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
 
         //Resources
-        UserResource userResource = new UserResource(userDAO);
+        OrganisationResource organisationResource = new OrganisationResource();
+        environment.jersey().register(organisationResource);
+
+        UserResource userResource = new UserResource(userDAO, organisationDAO);
         environment.jersey().register(userResource);
 
         ItemResource itemResource = new ItemResource();
