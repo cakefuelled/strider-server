@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/strider-api/strider-api.iml" filepath="$PROJECT_DIR$/strider-api/strider-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/strider-client/strider-client.iml" filepath="$PROJECT_DIR$/strider-client/strider-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/strider-server.iml" filepath="$PROJECT_DIR$/strider-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/strider-service/strider-service.iml" filepath="$PROJECT_DIR$/strider-service/strider-service.iml" />
+    </modules>
+  </component>
+</project>

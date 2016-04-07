@@ -1,6 +1,6 @@
 #IntelliJ
-.idea/
-*.iml
+.idea/workspace.xml
+*.iws
 
 target/
 pom.xml.tag
