@@ -24,6 +24,7 @@ public class UserResource {
     }
 
     @GET
+    @Path("/")
     public List<User> getUsers() {
         return new ArrayList<>();
     }

@@ -8,6 +8,16 @@
     <artifactId>strider-server</artifactId>
     <packaging>pom</packaging>
     <version>0.1</version>
+
+    <properties>
+        <!-- use UTF-8 for everything -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Library versions -->
+        <dropwizard.version>0.9.2</dropwizard.version>
+        <postgresql.version>9.4.1208.jre7</postgresql.version>
+    </properties>
+
     <modules>
         <module>strider-api</module>
         <module>strider-service</module>
@@ -25,15 +35,12 @@
             <artifactId>dropwizard-jdbi</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
     </dependencies>
-
-    <properties>
-        <!-- use UTF-8 for everything -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- Library versions -->
-        <dropwizard.version>0.9.2</dropwizard.version>
-    </properties>
 
     <build>
         <plugins>

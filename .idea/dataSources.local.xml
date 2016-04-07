@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - strider@localhost" uuid="997caeaf-7771-4879-bf99-379c00b9b722">
+      <secret-storage>master_key</secret-storage>
+      <user-name>strider</user-name>
+      <schema-pattern>strider.pg_catalog strider.public</schema-pattern>
+      <default-schemas>strider.public</default-schemas>
+    </data-source>
+  </component>
+</project>
