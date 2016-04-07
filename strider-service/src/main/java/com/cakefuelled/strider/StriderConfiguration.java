@@ -10,13 +10,9 @@ import javax.validation.constraints.NotNull;
 
 public class StriderConfiguration extends Configuration {
 
-    @Valid
-    @NotNull
     @JsonProperty("database")
     DataSourceFactory dataSourceFactory = new DataSourceFactory();
 
-    @Valid
-    @NotNull
     @JsonProperty
     CacheBuilderSpec authenticationCachePolicy;
 

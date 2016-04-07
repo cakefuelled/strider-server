@@ -1,6 +1,5 @@
 package com.cakefuelled.strider.organisation;
 
-import com.cakefuelled.strider.category.Category;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 
@@ -16,6 +15,6 @@ public interface OrganisationDAO {
     void createOrganisationTable();
 
     @SqlQuery("SELECT * FROM Organisation")
-    List<Organisation> query();;
+    List<Organisation> query();
 
 }

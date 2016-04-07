@@ -80,7 +80,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.cakefuelled.strider.striderApplication</mainClass>
+                                    <mainClass>com.cakefuelled.strider.StriderApplication</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
