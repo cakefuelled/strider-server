@@ -4,6 +4,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,13 @@ public class UserResource {
     }
 
     @GET
-    @Path("/")
     public List<User> getUsers() {
-        return new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>();
+
+        User testUser = new User(1, "test");
+        users.add(testUser);
+
+        return users;
     }
 
 }

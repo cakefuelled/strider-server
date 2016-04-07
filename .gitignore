@@ -4,6 +4,8 @@
 *.iws
 node_modules/
 
+*.log
+
 target/
 pom.xml.tag
 pom.xml.releaseBackup
