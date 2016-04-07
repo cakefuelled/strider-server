@@ -11,7 +11,12 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
+    public UserResource(UserDAO userDAO){
+
+    }
+
     @GET
+    @Path("/")
     public List<User> getUsers() {
         return new ArrayList<>();
     }

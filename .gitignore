@@ -1,6 +1,8 @@
 #IntelliJ
 .idea/workspace.xml
+.idea/tasks.xml
 *.iws
+node_modules/
 
 target/
 pom.xml.tag
