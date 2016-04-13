@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/strider-client/strider-client.iml" filepath="$PROJECT_DIR$/strider-client/strider-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/strider-server.iml" filepath="$PROJECT_DIR$/strider-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/strider-service/strider-service.iml" filepath="$PROJECT_DIR$/strider-service/strider-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../strider-web/strider-web.iml" filepath="$PROJECT_DIR$/../strider-web/strider-web.iml" />
     </modules>
   </component>
 </project>
