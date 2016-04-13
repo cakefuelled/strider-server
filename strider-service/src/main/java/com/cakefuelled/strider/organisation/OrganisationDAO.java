@@ -9,17 +9,17 @@ import java.util.List;
 
 public interface OrganisationDAO {
 
-    @SqlUpdate("CREATE TABLE Organisation (" +
+    @SqlUpdate("CREATE TABLE IF NOT EXISTS organisations (" +
             "id INTEGER PRIMARY KEY, " +
             "path VARCHAR(32) NOT NULL," +
             "name VARCHAR(32) NOT NULL," +
             "domain VARCHAR(32) NOT NULL) ")
     void createOrganisationTable();
 
-    @SqlQuery("SELECT * FROM Organisation")
+    @SqlQuery("SELECT * FROM organisations")
     List<Organisation> query();
 
-    @SqlQuery("SELECT Organisation.id FROM Organisations " +
+    @SqlQuery("SELECT Organisation.id FROM organisations " +
             "INNER JOIN UserOrganisation " +
             "ON Organisation.id = UserOrganisation.organisationId " +
             "WHERE UserOrganisation.userId = userId")

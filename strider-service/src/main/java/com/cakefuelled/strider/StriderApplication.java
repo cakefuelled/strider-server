@@ -35,6 +35,11 @@ public class StriderApplication extends Application<StriderConfiguration> {
         final UserDAO userDAO = jdbi.onDemand(UserDAO.class);
         final OrganisationDAO organisationDAO = jdbi.onDemand(OrganisationDAO.class);
 
+        //Create tables if they don't exist
+        userDAO.createUserTable();
+        userDAO.createTestUser();
+
+/*
         //Authenticators
         CachingAuthenticator<BasicCredentials, User> cachingAuthenticator =
                 new CachingAuthenticator<>(environment.metrics(),
@@ -48,7 +53,7 @@ public class StriderApplication extends Application<StriderConfiguration> {
                         .buildAuthFilter()));
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
-
+*/
         //Resources
         OrganisationResource organisationResource = new OrganisationResource();
         environment.jersey().register(organisationResource);
@@ -60,4 +65,5 @@ public class StriderApplication extends Application<StriderConfiguration> {
         environment.jersey().register(itemResource);
 
     }
+
 }

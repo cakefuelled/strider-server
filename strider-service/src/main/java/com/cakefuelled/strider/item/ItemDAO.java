@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface ItemDAO {
 
-    @SqlUpdate("CREATE TABLE Item (" +
+    @SqlUpdate("CREATE TABLE IF NOT EXISTS items (" +
             "id INTEGER PRIMARY KEY) ")
     void createItemTable();
 
-    @SqlQuery("SELECT * FROM Item")
+    @SqlQuery("SELECT * FROM items")
     List<Item> query();
 
 }

@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface CategoryDAO {
 
-    @SqlUpdate("CREATE TABLE Category (" +
+    @SqlUpdate("CREATE TABLE IF NOT EXISTS categories (" +
             "id INTEGER PRIMARY KEY, " +
             "name VARCHAR(32) NOT NULL) ")
     void createCategoryTable();
 
-    @SqlQuery("SELECT * FROM Category")
+    @SqlQuery("SELECT * FROM categories")
     List<Category> query();;
 
 }
