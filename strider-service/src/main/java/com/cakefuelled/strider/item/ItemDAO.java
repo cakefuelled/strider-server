@@ -9,7 +9,7 @@ public interface ItemDAO {
 
     @SqlUpdate("CREATE TABLE IF NOT EXISTS items (" +
             "id INTEGER PRIMARY KEY) ")
-    void createItemTable();
+    void createItemsTable();
 
     @SqlQuery("SELECT * FROM items")
     List<Item> query();

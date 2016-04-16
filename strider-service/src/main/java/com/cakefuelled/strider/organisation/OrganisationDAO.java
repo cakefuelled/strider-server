@@ -14,7 +14,7 @@ public interface OrganisationDAO {
             "path VARCHAR(32) NOT NULL," +
             "name VARCHAR(32) NOT NULL," +
             "domain VARCHAR(32) NOT NULL) ")
-    void createOrganisationTable();
+    void createOrganisationsTable();
 
     @SqlQuery("SELECT * FROM organisations")
     List<Organisation> query();

@@ -11,7 +11,7 @@ public interface CategoryDAO {
     @SqlUpdate("CREATE TABLE IF NOT EXISTS categories (" +
             "id INTEGER PRIMARY KEY, " +
             "name VARCHAR(32) NOT NULL) ")
-    void createCategoryTable();
+    void createCategoriesTable();
 
     @SqlQuery("SELECT * FROM categories")
     List<Category> query();;

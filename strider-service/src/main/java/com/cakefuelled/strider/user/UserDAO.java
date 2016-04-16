@@ -12,7 +12,7 @@ public interface UserDAO {
             "id SERIAL PRIMARY KEY," +
             "email VARCHAR(256) UNIQUE NOT NULL," +
             "password VARCHAR(128) NOT NULL)")
-    void createUserTable();
+    void createUsersTable();
 
     @SqlUpdate("INSERT INTO users (email, password) VALUES ('aimar@aimarfoundation.org', 'secret')")
     void createTestUser();

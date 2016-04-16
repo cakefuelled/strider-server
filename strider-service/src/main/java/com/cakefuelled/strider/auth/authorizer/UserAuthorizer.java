@@ -1,4 +1,4 @@
-package com.cakefuelled.strider.auth;
+package com.cakefuelled.strider.auth.authorizer;
 
 import com.cakefuelled.strider.user.User;
 import io.dropwizard.auth.Authorizer;

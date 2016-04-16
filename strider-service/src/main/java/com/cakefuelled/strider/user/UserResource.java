@@ -1,5 +1,6 @@
 package com.cakefuelled.strider.user;
 
+import com.cakefuelled.strider.auth.AuthTokenDAO;
 import com.cakefuelled.strider.auth.model.Credentials;
 import com.cakefuelled.strider.auth.model.LoginSuccessResult;
 import com.cakefuelled.strider.organisation.Organisation;
@@ -32,22 +33,11 @@ public class UserResource {
         return new ArrayList<>();
     }
 
-    @POST
-    @Path("/login")
-    public LoginSuccessResult login(Credentials credentials) throws AuthenticationException {
-        //TODO: Salt, Hash
-        User userWithPasswordFromDatabase = dao.getUserWithPasswordByEmail(credentials.getEmail());
-        //Compare password hashes
-        if(credentials.getPassword().equals(userWithPasswordFromDatabase.getPassword())) {
-            return new LoginSuccessResult(userWithPasswordFromDatabase.getEmail(), "moreSecret");
-        }
-        throw new AuthenticationException("Incorrect username or password");
-    }
-
     @GET
     @Path("/me/organisations")
     public List<Organisation> getUserOrganisations(@Auth User user) {
-        return organisationDAO.getOrganisationsByUser(user.getId());
+        return new ArrayList<>();
+        //return organisationDAO.getOrganisationsByUser(user.getId());
     }
 
 }
