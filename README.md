@@ -1,12 +1,12 @@
 # Strider API
 
-The strider API is powered by [LoopBack](http://loopback.io). We decided to go with this because of the simplicity and amount of features offered.
+The strider API is powered by [Dropwizard](http://dropwizard.io). We decided to go with this because of the simplicity and amount of features offered.
 
-Running the server requires MongoDB up and running, and then ideally something like:
+Running the server requires postgresql, then you can do (in the root dir)
 
 ```
-$ npm install
-$ npm run
+$ mvn package
+$ strider-service/target/strider-service-0.1.jar server strider-local.yml
 ```
 
 ##Contributing
