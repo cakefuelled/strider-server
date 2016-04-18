@@ -21,23 +21,14 @@ import java.util.List;
 public class UserResource {
 
     private UserDAO dao;
-    private OrganisationDAO organisationDAO;
 
-    public UserResource(UserDAO userDAO, OrganisationDAO organisationDAO) {
+    public UserResource(UserDAO userDAO) {
         this.dao = userDAO;
-        this.organisationDAO = organisationDAO;
     }
 
     @GET
     public List<User> getUsers() {
         return new ArrayList<>();
-    }
-
-    @GET
-    @Path("/me/organisations")
-    public List<Organisation> getUserOrganisations(@Auth User user) {
-        return new ArrayList<>();
-        //return organisationDAO.getOrganisationsByUser(user.getId());
     }
 
 }

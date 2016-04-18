@@ -16,12 +16,17 @@ public interface OrganisationDAO {
             "domain VARCHAR(32) NOT NULL) ")
     void createOrganisationsTable();
 
+    @SqlUpdate("CREATE TABLE IF NOT EXISTS userOrganisations (" +
+            "userId INTEGER REFERENCES users(id), " +
+            "organisationId INTEGER REFERENCES organisations(id))")
+    void createUserOrganisationsTable();
+
     @SqlQuery("SELECT * FROM organisations")
     List<Organisation> query();
 
-    @SqlQuery("SELECT Organisation.id FROM organisations " +
-            "INNER JOIN UserOrganisation " +
-            "ON Organisation.id = UserOrganisation.organisationId " +
-            "WHERE UserOrganisation.userId = userId")
-    List<Organisation> getOrganisationsByUser(@Bind("userId") int userId);
+    @SqlQuery("SELECT organisations.* FROM userOrganisations " +
+            "INNER JOIN organisations " +
+            "ON userOrganisations.id = organisations.organisationId " +
+            "WHERE userOrganisations.userId = :userId")
+    List<Organisation> getOrganisationsByUserId(@Bind("userId") int userId);
 }

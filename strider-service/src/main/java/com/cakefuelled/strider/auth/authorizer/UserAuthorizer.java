@@ -7,6 +7,7 @@ public class UserAuthorizer implements Authorizer<User> {
 
     @Override
     public boolean authorize(User user, String role) {
-        return user.equals("user") && role.equals("USER");
+        //TODO: Role based authz
+        return role.equals("USER");
     }
 }

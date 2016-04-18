@@ -6,6 +6,8 @@ import com.cakefuelled.strider.organisation.Organisation;
 import com.cakefuelled.strider.organisation.OrganisationDAO;
 import com.cakefuelled.strider.user.User;
 import com.cakefuelled.strider.user.UserDAO;
+import com.cakefuelled.strider.user.UserWithPassword;
+import com.cakefuelled.strider.util.exception.UnauthenticatedException;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.auth.AuthenticationException;
 
@@ -33,7 +35,7 @@ public class AuthResource {
     @Path("/login")
     public LoginSuccessResult login(Credentials credentials) throws AuthenticationException {
         //TODO: Salt, Hash
-        User userWithPasswordFromDatabase = dao.getUserWithPasswordByEmail(credentials.getEmail());
+        UserWithPassword userWithPasswordFromDatabase = dao.getUserWithPasswordByEmail(credentials.getEmail());
         //Compare password hashes
         if(credentials.getPassword().equals(userWithPasswordFromDatabase.getPassword())) {
             //TODO: Generate a token
@@ -42,8 +44,9 @@ public class AuthResource {
             //Store the token in the database
             authTokenDAO.insertAuthToken(email, token);
             return new LoginSuccessResult(email, token);
+        } else {
+            throw new UnauthenticatedException("Incorrect username or password");
         }
-        throw new AuthenticationException("Incorrect username or password");
     }
 
 }

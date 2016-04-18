@@ -72,10 +72,10 @@ public class StriderApplication extends Application<StriderConfiguration> {
         AuthResource authResource = new AuthResource(userDAO, authTokenDAO);
         environment.jersey().register(authResource);
 
-        OrganisationResource organisationResource = new OrganisationResource();
+        OrganisationResource organisationResource = new OrganisationResource(organisationDAO);
         environment.jersey().register(organisationResource);
 
-        UserResource userResource = new UserResource(userDAO, organisationDAO);
+        UserResource userResource = new UserResource(userDAO);
         environment.jersey().register(userResource);
 
         ItemResource itemResource = new ItemResource();

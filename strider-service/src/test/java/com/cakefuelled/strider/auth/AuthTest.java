@@ -1,18 +1,17 @@
 package com.cakefuelled.strider.auth;
 
-import com.cakefuelled.strider.auth.authenticator.TokenAuthenticator;
-import com.cakefuelled.strider.auth.authorizer.UserAuthorizer;
 import com.cakefuelled.strider.auth.model.Credentials;
 import com.cakefuelled.strider.auth.model.LoginSuccessResult;
 import com.cakefuelled.strider.organisation.OrganisationDAO;
+import com.cakefuelled.strider.organisation.OrganisationResource;
 import com.cakefuelled.strider.user.User;
 import com.cakefuelled.strider.user.UserDAO;
 import com.cakefuelled.strider.user.UserResource;
-import io.dropwizard.auth.AuthDynamicFeature;
+import com.cakefuelled.strider.user.UserWithPassword;
+import com.cakefuelled.strider.util.TestUtil;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
-import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -35,22 +34,13 @@ public class AuthTest {
     private static final OrganisationDAO organisationDao = mock(OrganisationDAO.class);
 
     @ClassRule
-    public static final ResourceTestRule resources = ResourceTestRule.builder()
-        .setTestContainerFactory(new GrizzlyWebTestContainerFactory())
-            .addProvider(new AuthDynamicFeature(new TokenAuthFilter.Builder<User>()
-                    .setAuthenticator(new TokenAuthenticator(authTokenDao))
-                    .setAuthorizer(new UserAuthorizer())
-                    .setPrefix("Bearer")
-                    .setRealm("Mordor")
-                    .buildAuthFilter()))
-            .addProvider(RolesAllowedDynamicFeature.class)
-            .addProvider(new AuthValueFactoryProvider.Binder<>(User.class))
-            .addResource(new UserResource(userDao, organisationDao))
+    public static final ResourceTestRule resources = TestUtil.getAuthenticatedResourceTester(authTokenDao)
+            .addResource(new UserResource(userDao))
             .addResource(new AuthResource(userDao, authTokenDao))
+            .addResource(new OrganisationResource(organisationDao))
             .build();
 
-    private final User user = new User(1, "aimar@aimarfoundation.org", "secret");
-    private final LoginSuccessResult loginSuccessResult = new LoginSuccessResult("aimar@aimarfoundation.org", "testToken");
+    private final UserWithPassword user = new UserWithPassword(1, "aimar@aimarfoundation.org", "secret");
 
     @Before
     public void setup() {
@@ -69,7 +59,7 @@ public class AuthTest {
     public void canLoginWithCorrectPassword() {
         //Load a resource
         Response unauthResponse = resources.getJerseyTest()
-                .target("/users/me/organisations")
+                .target("/organisations")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
         //Get 401
@@ -86,12 +76,23 @@ public class AuthTest {
         /*assertThat(((LoginSuccessResult) loginResponse.getEntity())).isEqualTo(loginSuccessResult);*/
         //Resource works when token passed
         Response authResponse = resources.getJerseyTest()
-                .target("/users/me/organisations")
+                .target("/organisations")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization","Bearer testToken")
                 .get();
         assertThat(authResponse.getStatus()).isEqualTo(200);
     }
 
-    //TODO: Cannot login with incorrect password
+    @Test
+    public void cannotLoginWithIncorrectPassword() {
+
+        //POST auth/login with email and incorrect password
+        Response invalidLoginResponse = resources.getJerseyTest()
+                .target("/auth/login")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .post(Entity.json(new Credentials("aimar@aimarfoundation.org", "wrongsecret")));
+        //401 Back
+        assertThat(invalidLoginResponse.getStatus()).isEqualTo(401);
+
+    }
 }

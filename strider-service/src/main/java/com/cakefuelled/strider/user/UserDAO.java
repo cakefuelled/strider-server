@@ -24,5 +24,5 @@ public interface UserDAO {
     User getUserByEmail(@Bind("email") String email);
 
     @SqlQuery("SELECT id, email, password FROM users WHERE email = :email")
-    User getUserWithPasswordByEmail(@Bind("email") String email);
+    UserWithPassword getUserWithPasswordByEmail(@Bind("email") String email);
 }

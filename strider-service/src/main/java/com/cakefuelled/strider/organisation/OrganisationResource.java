@@ -8,17 +8,22 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("organisations")
 @Produces(MediaType.APPLICATION_JSON)
 public class OrganisationResource {
 
+    private OrganisationDAO organisationDAO;
+
+    public OrganisationResource(OrganisationDAO organisationDAO) {
+        this.organisationDAO = organisationDAO;
+    }
+
     @RolesAllowed("USER")
     @GET
     public List<Organisation> getOrganisations(@Auth User user) {
-        return new ArrayList<>();
+        return organisationDAO.getOrganisationsByUserId(user.getId());
     }
 
 }

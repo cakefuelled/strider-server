@@ -14,6 +14,7 @@ public interface AuthTokenDAO {
             "token VARCHAR(128) NOT NULL)")
     void createAuthTokensTable();
 
+    //TODO: Upsert?
     @SqlUpdate("INSERT INTO authTokens (email, token) VALUES (':email', ':token')")
     void insertAuthToken(@Bind("email") String email, @Bind("token") String token);
 

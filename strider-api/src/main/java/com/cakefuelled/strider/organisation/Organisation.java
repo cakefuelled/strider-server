@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 
+//TODO: Properly validate fields
 public class Organisation {
 
     @NotNull
@@ -31,8 +32,11 @@ public class Organisation {
         //Jackson deserialization
     }
 
-    public Organisation(int id) {
+    public Organisation(int id, String path, String name, String domain) {
         this.id = id;
+        this.path = path;
+        this.name = name;
+        this.domain = domain;
     }
 
     public int getId() {
