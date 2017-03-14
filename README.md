@@ -6,13 +6,13 @@ Running the server requires MongoDB up and running, and then ideally something l
 
 ```
 $ npm install
-$ npm run
+$ node .
 ```
 
-##Contributing
+## Contributing
 Pull Requests are always welcome, take a look at the existing code to become familiar with our style guide.
 
-##License
+## License
 Strider is released under the GNU Aferro GPL v3.0 License
 
 If you want to use it for commercial purposes get in touch with us.
